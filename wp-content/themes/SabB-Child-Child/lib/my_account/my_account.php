@@ -267,6 +267,7 @@ function ProjectTheme_my_account_area_main_function()
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	if($notices == 0){echo "No pending notices at this time";}
+	
 	?>
 	</div></div>
 	</div>
@@ -312,6 +313,14 @@ function ProjectTheme_my_account_area_main_function()
 		</li>
 	</ul>
 	</div></div>
+	<div id="content" class="account-main-area">		
+		<div class ="box_title"><b>My Activity</b></div>
+			<div class="my_box3">
+				<div class ="padd10">	
+				<?php require_once 'timesheetdataproject.php'; ?>	 
+				</div>
+			</div>
+	</div>
 	<div id="content" class="account-main-area">		
 	<div class ="box_title"><b>My Activity</b></div>
 	<div class="my_box3"><div class ="padd10">
