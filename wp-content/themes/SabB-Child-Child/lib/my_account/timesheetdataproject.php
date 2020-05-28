@@ -248,19 +248,19 @@ foreach($years as $val){
 				//echo "<br />";			
 			}
 			*/
-			echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
-			echo round($sum_total);
-			echo "<br />";
-			echo "<h1>Total Number of Hours Worked - Non Projects</h1>";				
-			echo round($non_project_sumtotal);
-			echo "<h1>Total Number of Hours</h1>";		
-			echo  round($total = $non_project_sumtotal + $sum_total);
+			//echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
+			round($sum_total);
+			//echo "<br />";
+			//echo "<h1>Total Number of Hours Worked - Non Projects</h1>";				
+			round($non_project_sumtotal);
+			//echo "<h1>Total Number of Hours</h1>";		
+			round($total = $non_project_sumtotal + $sum_total);
 			//echo "</pre>";
-			echo "<h1>Total Number of Hours Worked Project Percent</h1>";		
-			echo  round(100 * ($sum_total/$total))."%";				
+			//echo "<h1>Total Number of Hours Worked Project Percent</h1>";		
+			 round(100 * ($sum_total/$total))."%";				
 			//echo "</pre>";
-			echo "<h1>Total Number of Hours Non-project Percent</h1>";		
-			echo  round(100 * ($non_project_sumtotal/$total))."%";
+			//echo "<h1>Total Number of Hours Non-project Percent</h1>";		
+			round(100 * ($non_project_sumtotal/$total))."%";
 			//echo "</pre>";/**/
 			
 			$litres ="litres".$diff;
@@ -316,6 +316,7 @@ $arr01 = array("country" => 'Non Projects', "litres" => 60);
 #chartdiv {
   width: 90%;
   height: 300px;
+  margin-top: -200px;
 }
 
 </style>
