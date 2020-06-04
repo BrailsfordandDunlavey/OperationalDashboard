@@ -317,7 +317,7 @@ function ProjectTheme_my_account_area_main_function()
 		<div class ="box_title"><b>My Activity</b></div>
 			<div class="my_box3">
 				<div class ="padd10">	
-				<?php //require_once 'timesheetdataproject.php'; ?>	
+				<?php require_once 'timesheetdataproject.php'; ?>	
 				 
 				</div>
 				
