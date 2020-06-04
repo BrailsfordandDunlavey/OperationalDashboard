@@ -26,7 +26,9 @@ global $wpdb;
 		"SELECT * FROM $table_name
 		    INNER JOIN $client_table_name ON ID = project_id
 			WHERE user_id = $current_user_id");
-			
+
+	$array = json_decode(json_encode($result), true);
+
 			$result_nonproject = $wpdb->get_results(
 				"SELECT * FROM $table_name
 					WHERE user_id = $current_user_id AND (project_id LIKE '%Vacation%'
@@ -36,22 +38,19 @@ global $wpdb;
 					OR project_id LIKE 'Sick'
 					OR project_id LIKE '0001MK'
 					OR project_id LIKE 'BEREAV')/**/");
-
 			
 	$array_nonprojects = json_decode(json_encode($result_nonproject), true);
 		
-    
+	$table_emp_sup = 'useradd';
+	$client_table_emp = 'users';
+	$table_name_emp_sup = $wpdb->prefix . $table_emp_sup;
+	$client_table_name_emp = $wpdb->prefix . $client_table_emp; 
+	$result_emp_sup = $wpdb->get_results(
+		"SELECT user_id FROM $table_name_emp_sup ud			 		    
+			WHERE ud.reports_to = $current_user_id");
 /**/
-//	$length = count($result);
-//	$length = $length - 1;
-
-	$array = json_decode(json_encode($result), true);
-		
-    echo "<pre>";
-	//print_r($array_nonprojects);
-
-	echo "</pre>";
- 
+//	$length = count($result);user_id, reports_to,
+//	$length = $length - 1;INNER JOIN $table_emp_sup uu ON ud.user_id = uu.ID 
    $arr_output = array();
    foreach($array as $key=>$arr)
    {
@@ -76,14 +75,14 @@ global $wpdb;
    }
    
    //$arr_output = $arr_output[0];
-   
+
 echo "<h1>Leader Time Analysis : </h1>";
 echo $current_user->display_name;
 echo "<br />";
 print_r($current_user->user_email);
-
 echo "<br />";
-echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-projects/>Time Analysis - Project</a></button><label for=\"Time Analysis Project\">Time Analysis Project</label></form>";
+echo "<br />";
+echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-projects>Time Analysis - Project</a></button><label for=\"Time Analysis Project\">Time Analysis Project</label></form>";
 echo "<br />";
 echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
@@ -98,7 +97,7 @@ $nonprojectTimeTotalarray = array();
 $nonprojectTimeTotalarrayPieChart  = array();
 $projectTimeTotalarrayPieChart  = array();
 
- 
+///////////////////////////////////////Break this off////////////////////////////////////////
 foreach($years as $val){
 	
 	foreach($arr_output[$val] as $dates){
@@ -111,10 +110,16 @@ foreach($years as $val){
 			$projectTimeTotalarray = array();
 			$nonprojectTimeTotalarray = array();
 			$non_project_sumtotal = "";
+			echo "<pre>";
+			//print_r($dates);
+			echo "</pre>";
 			foreach($dates as $hours){
 				echo "<pre>";
-				//$pTotalTime = $hours['timesheet_hours'];		
-					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];				
+					//echo $pTotalSpheres = $hours['sphere'];	
+					//echo $pTotalSpheres = $hours['timesheet_hours'];	
+					//echo $pTotalSpheres = $hours['abbreviated_name'];	
+					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];
+									
 					$sum_total = $hours['timesheet_hours'] + $sum_total;			
 					
 					
@@ -275,7 +280,7 @@ foreach($years as $val){
 			$mergednonprojectTimeTotalarrayPieChart_encode = json_encode($mergednonprojectTimeTotalarrayPieChart);
 			$mergedprojectTimeTotalarrayPieChart_encode = json_encode($mergedprojectTimeTotalarrayPieChart);
 			$charpiearr = $mergednonprojectTimeTotalarrayPieChart_encode.",".$mergedprojectTimeTotalarrayPieChart_encode;
-			//echo $charpiearr.", ".$litres.", ".$country;
+			$charpiearr.", ".$litres.", ".$country;
 			my_piechart($charpiearr, $litres, $country);
 			$diff++;
 			$charpiearr = " ";
@@ -283,6 +288,7 @@ foreach($years as $val){
 			if($month == '12'){
 				break;
 			}
+			
 			// 
 		}
 
@@ -371,4 +377,4 @@ series.dataFields.category = country;
     litres: 301.9
   }, -->
 <div id="chartdiv"></div>
-<? } ?>
+<? }?>

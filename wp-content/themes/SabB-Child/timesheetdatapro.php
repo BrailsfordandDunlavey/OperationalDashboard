@@ -10,11 +10,22 @@
 *	since v1.2.5.3
 *
 ***************************************************************************/
+$user_id = $_GET['user_id'];
+if($user_id){
+	$current_user_id = $user_id;
+}else{
+	$current_user_id = get_current_user_id();
+}
 
-$current_user_id = get_current_user_id();
 //echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
-$current_user = wp_get_current_user();
+$author_obj = get_user_by('id', $user_id);
+if($author_obj){
+	$current_user = $author_obj->data;
+}else{
+	$current_user = wp_get_current_user();
+}
+
 
 
 global $wpdb;
@@ -76,16 +87,16 @@ global $wpdb;
    }
    
    //$arr_output = $arr_output[0];
-   
+
 echo "<h1>Leader Time Analysis : </h1>";
 echo $current_user->display_name;
 echo "<br />";
 print_r($current_user->user_email);
 echo "<br />";
 echo "<br />";
-echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-projects/>Time Analysis - Project</a></button><label for=\"Time Analysis Project\">Time Analysis Project</label></form>";
+echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-projects?user_id=$user_id>Time Analysis - Project</a></button><label for=\"Time Analysis Project\">Time Analysis Project</label></form>";
 echo "<br />";
-echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
+echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects?user_id=$user_id>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
 //print_r($arr_output_nonprojects[2020]['03']);
 //print_r($arr_output[2017]);'2018','2017', '2016['timesheet_hours']'2020','
@@ -113,9 +124,11 @@ foreach($years as $val){
 			$non_project_sumtotal = "";
 			foreach($dates as $hours){
 				echo "<pre>";
-				//$pTotalTime = $hours['timesheet_hours'];		
+				$pTotalSpheres = $hours['sphere'];
+				$pTotalTime = $hours['timesheet_hours'];		
 					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];				
 					$sum_total = $hours['timesheet_hours'] + $sum_total;			
+					//um_total_spheres = $hours['timesheet_hours'] + $sum_total;			
 					
 					
 					//$nonprojectTimeTotalarray[$arr_output_nonprojects[$val][$months][$i]['project_id']][$i] = $arr_output_nonprojects[$val][$months][$i]['timesheet_hours'];
@@ -242,9 +255,8 @@ foreach($years as $val){
 				//echo "<br />";			
 			}
 			*/
-			/*echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
-			echo round($sum_total);
-			echo "<br />";
+		
+			/*echo "<br />";
 			echo "<h1>Total Number of Hours Worked - Non Projects</h1>";				
 			echo round($non_project_sumtotal);
 			echo "<h1>Total Number of Hours</h1>";		
@@ -294,6 +306,11 @@ foreach($years as $val){
 			if($month == '12'){
 				break;
 			}
+
+			echo "<h1>Total Number of Hours Worked - Spheres </h1>";
+			echo $pTotalSpheres;
+			echo " ";	 
+			echo round($sum_total);
 			// 
 		}
 
