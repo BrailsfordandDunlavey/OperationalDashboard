@@ -12,7 +12,7 @@
 ***************************************************************************/
 
 $current_user_id = get_current_user_id();
-echo $current_user_id;
+//echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
 $current_user = wp_get_current_user();
 
@@ -29,7 +29,7 @@ global $wpdb;
 			WHERE user_id = $current_user_id");
 
 	$array = json_decode(json_encode($result), true);
-
+/*
 			$result_nonproject = $wpdb->get_results(
 				"SELECT * FROM $table_name
 					WHERE user_id = $current_user_id AND (project_id LIKE '%Vacation%'
@@ -186,6 +186,7 @@ $diff = rand(100,200);
 $difff = rand(100,200);
 ///////////////////////////////////////Break this off////////////////////////////////////////
 $s = 0;
+
 foreach($years as $val){
 	
 	foreach($arr_output[$val] as $dates){
@@ -312,7 +313,7 @@ foreach($years as $val){
 				//echo date('Y-F-d', );
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
 				//echo "<br />";
-				//my_piechart($charpiearr, $month_input[2]);
+				my_piechart($charpiearr, $month_input[2]);
 
 
 			}
@@ -474,4 +475,4 @@ chart.cursor.lineX.fillOpacity = 0.1;
 <!-- HTML -->
 <div id="chartdivvv"></div>
 
-<? }?>
+<? }?>*/
