@@ -69,9 +69,11 @@ foreach($result_nonproject_spheres as $key_nonprojects=>$arr_nonprojects){
 
 
 $expected_hours_pertitle_array = array(1 => 67, 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
+*/
 $c = 90;
 $s = 0;
-*/
+
+//print_r($arr_output_nonprojects);
 echo "<table style=\"table-layout: fixed; width: 100%\"><tr>";
 $spheres_arr = array("Functional", "Higher Ed", "KMV");
 
