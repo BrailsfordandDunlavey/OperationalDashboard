@@ -46,8 +46,8 @@ global $wpdb;
 	$table_name_emp_sup = $wpdb->prefix . $table_emp_sup;
 	$client_table_name_emp = $wpdb->prefix . $client_table_emp; 
 	$result_emp_sup = $wpdb->get_results(
-		"SELECT user_id FROM $table_name_emp_sup ud			 		    
-			WHERE ud.reports_to = $current_user_id");
+		"SELECT user_id, position FROM $table_name_emp_sup ud			 		    
+			WHERE ud.user_id = $current_user_id");
 /**/
 //	$length = count($result);user_id, reports_to,
 //	$length = $length - 1;INNER JOIN $table_emp_sup uu ON ud.user_id = uu.ID 
@@ -86,56 +86,126 @@ echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/
 echo "<br />";
 echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
-//print_r($arr_output_nonprojects[2020]['03']);
-//print_r($arr_output[2017]);'2018','2017', '2016['timesheet_hours']'2020','
 echo "</pre>";
-$years = array('2020');
+	
+require "form_DatePicker.html";
+//print_r($_POST['date']);
+if($_POST['date']){
+$month_input = explode("/", $_POST['date']);
+}else{
+	$month_input = explode("/", "01/01/2020");
+}
+
+// best stored as array, so you can add more than one
+global $holidays;
+$holidays = array('2020-01-01', '2020-01-20', '2020-02-17', '2020-05-25', '2020-07-03', '2020-09-07', '2020-11-26', '2020-11-27', '2020-12-24', '2020-12-25', '2020-12-31');
+$workingDaysInaMonth = array();
+//print_r($month_input);
+for($et=0; $et<=2; $et++){
+		$months_project_totalhours = $month_input[0] + $et;
+		'0'.$months_project_totalhours;
+		
+		$num_of_days = cal_days_in_month(CAL_GREGORIAN, $months_project_totalhours, $month_input['2']);
+		$start = new DateTime($month_input['2'].'-'.$months_project_totalhours.'-01');
+		$end = new DateTime($month_input['2'].'-'.$months_project_totalhours.'-'.$num_of_days);
+		// otherwise the  end date is excluded (bug?)
+		$end->modify('+1 day');
+
+		$interval = $end->diff($start);
+
+		// total days
+		$days = $interval->days;
+
+		// create an iterateable period of date (P1D equates to 1 day)
+		$period = new DatePeriod($start, new DateInterval('P1D'), $end);
+
+		foreach($period as $dt) {
+			$curr = $dt->format('D');
+
+			// for the updated question
+			if (in_array($dt->format('Y-m-d'), $holidays)) {
+				$days--;
+			}
+
+			// substract if Saturday or Sunday
+			if ($curr == 'Sat' || $curr == 'Sun') {
+				$days--;
+			}
+		}		 
+		$workingDaysInaMonth[] = $days*8.5;
+}
+
+
+foreach($result_emp_sup as $key_teamsemp => $val_teamsemp){	
+	$team_management_position[] = $val_teamsemp->position;
+}
+
+//print_r($result_emp_sup);
+
+$expected_hours_pertitle_array = array( 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
+global $total_expect_hrs_project;
+$expectedhour_monthone_sphere = array();
+			$expectedhour_monthone_sphereone = array();
+			$expectedhour_monthone_spheretwo = array();
+			$added_expected = array();
+			$added_expectedone = array();
+			$added_expectedtwo = array();
+
+			foreach($team_management_position as $key_idExpect => $val_idExpect){	
+				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
+					if($val_idExpect == $key_expectedHrsPercent){					
+						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
+						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
+						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
+					
+					}
+				}
+			}	
+						$added_expected[] = array_sum($expectedhour_monthone_sphere);
+						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
+						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);	
+						$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo);
+$first_m = '0'. $month_input[0];
+$second_m = '0'. $month_input[0] + 1;
+$third_m = '0'. $month_input[0] + 2;
+
+$nonprojectTimeTotalarrayPieChartbigin = array("value1" => 0, "value2" => 0, "value3" => 0, "value4" => 0);
+$mergedprojectTimeTotalarrayPieChart_encode = json_encode($nonprojectTimeTotalarrayPieChartbigin);
+$years = array($month_input[2]);
 global $projectTimeTotalarray;
 global $nonprojectTimeTotalarray;
+global $charpiearr;
+global $litres;
+global $country;
 $projectTimeTotalarray = array();
 $nonprojectTimeTotalarray = array();
 $nonprojectTimeTotalarrayPieChart  = array();
 $projectTimeTotalarrayPieChart  = array();
-
+$diff = rand(100,200);
+$difff = rand(100,200);
 ///////////////////////////////////////Break this off////////////////////////////////////////
+$s = 0;
 foreach($years as $val){
 	
 	foreach($arr_output[$val] as $dates){
-		
-		$iter++;
-		if($iter == 04){
+		$exp_months = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
+		$months = $exp_months[1];		
+		if($months == $first_m OR $months == $second_m OR $months == $third_m){
 		
 			$sum_total = 0;
-			$i = 0;		$s = 0;
+			$i = 0;		
 			$projectTimeTotalarray = array();
 			$nonprojectTimeTotalarray = array();
-			$non_project_sumtotal = "";
-			echo "<pre>";
-			//print_r($dates);
-			echo "</pre>";
+			$non_project_sumtotal = "";			 
 			foreach($dates as $hours){
 				echo "<pre>";
-					//echo $pTotalSpheres = $hours['sphere'];	
-					//echo $pTotalSpheres = $hours['timesheet_hours'];	
-					//echo $pTotalSpheres = $hours['abbreviated_name'];	
-					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];
-									
-					$sum_total = $hours['timesheet_hours'] + $sum_total;			
-					
-					
-					//$nonprojectTimeTotalarray[$arr_output_nonprojects[$val][$months][$i]['project_id']][$i] = $arr_output_nonprojects[$val][$months][$i]['timesheet_hours'];
-					//echo $arr_output_nonprojects[$val][$months][$i]['timesheet_hours'];
-					//echo $arr_output_nonprojects[$val][$months][26]['timesheet_hours'];
-					//echo $arr_output_nonprojects[$val][$months][$i]['project_id'];
-					//echo $arr_output_nonprojects[$val][$months][$i]['timesheet_notes'];
-					$i++;
-				
+					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];									
+					$sum_total = $hours['timesheet_hours'] + $sum_total;
+					$i++;				
 				echo "</pre>";
-			} 	
-			//$month = '12';
-					$exp_months = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
-					$months = $exp_months[1];
+			} 			 
 					
+					//echo "<br />";
 					$non_project_count = count($arr_output_nonprojects[$val][$months]);
 					for($l=0; $l<$non_project_count; $l++){
 						$hournonproject = $arr_output_nonprojects[$val][$months][$l]['timesheet_hours'];
@@ -143,35 +213,21 @@ foreach($years as $val){
 						$exploded_hournonproject = explode("-", $hournonproject);
 						//print_r($exploded_hournonproject);
 						$count_exploded_hournonproject_arr = count($exploded_hournonproject);
-						//echo $count_exploded_hournonproject_arr;
-						//echo $i;
 						if($count_exploded_hournonproject_arr == 1){
 							//echo $exploded_hournonproject[0];
 							
 							$non_project_sumtotal = $arr_output_nonprojects[$val][$months][$l]['timesheet_hours'] + $non_project_sumtotal;
 							$nonprojectTimeTotalarray[$arr_output_nonprojects[$val][$months][$l]['project_id']][$l] = $arr_output_nonprojects[$val][$months][$l]['timesheet_hours'];
-							//echo $arr_output_nonprojects[$val][$months][$l]['timesheet_hours'];
-							//echo $arr_output_nonprojects[$val][$months][$l]['project_id'];
-							//echo "<br />";
+							
 						}
-					}
-					
-			$s += 1;			
-			echo "<pre>";
-			//print_r($dates[0]['timesheet_date']);
-			echo "<hr />";
+					}											
+		
 			$exp_month = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
-			$month = $exp_month[1];
+			$month = $exp_month[1];			
 			
-			$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
-			echo "<h1>Date </h1>";		
-			
-			//echo date('Y-F-d', );
-			print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
-			echo "<br />";
-			//print_r(date('Y-F-d', $date_nonprojects_months));
-			echo "<br />";			
-			$i="0";
+			print_r( );
+						
+			//echo $s;
 			$projenArrNames = array();
 			foreach($dates as $porjectnames){
 				//echo $porjectnames['project_name'];		
@@ -211,47 +267,7 @@ foreach($years as $val){
 				unset($projectTimeTotalarray[$u]);
 			}
 			/*
-			echo "<h1>Total Number of Hours Worked Per project: </h1><br />";		 
-			foreach($projectTimeTotalarray as $keystotal => $ptotalval){
-				echo "<div style=\"float: left;\">".$keystotal.": </div>";
-				echo "<div style=\"padding-left: 200px;\">".ceil(array_sum($ptotalval))."</div>";
-				//echo "<br />";			
-			}
-		
-			
-			echo "<h1>Total Number of Hours Worked Per Non-project: </h1><br />";
-			foreach($nonprojectTimeTotalarray as $nonkeystotal => $nonptotalval){
-				//print_r($nonptotalval);
-				//if(empty($nonptotalval)){<div style="float: left;"></div><div style="float: left;">
-				//	echo "Hello World";
-				//}
-				$nonptotalval = array_filter($nonptotalval);
-				if(!empty($nonptotalval)){
-					if($nonkeystotal == '0001'){
-					$nonkeystotal = 'Admin';
-					echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}elseif($nonkeystotal == '0001MK'){
-						$nonkeystotal = 'Farming';
-						echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}elseif($nonkeystotal == '0001HR'){
-						$nonkeystotal = 'HR';
-						echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}elseif($nonkeystotal == 'Sick'){
-						$nonkeystotal = 'Personal';
-						echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}elseif($nonkeystotal == 'BEREAV'){
-						$nonkeystotal = 'BEREAV';
-						echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}else{
-						echo "<div style=\"float: left;\">".$nonkeystotal.": </div>";
-					}
-				
-				}
-					
-				
-				echo "<div style=\"padding-left: 200px;\">".ceil(array_sum($nonptotalval))."</div> ";
-				//echo "<br />";			
-			}
+			 
 			*/
 			//echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
 			round($sum_total);
@@ -266,78 +282,69 @@ foreach($years as $val){
 			//echo "</pre>";
 			//echo "<h1>Total Number of Hours Non-project Percent</h1>";		
 			round(100 * ($non_project_sumtotal/$total))."%";
-			//echo "</pre>";/**/
-			
-			$litres ="litres".$diff;
-			$nonprojectTimeTotalarrayPieChart[$litres] = $non_project_sumtotal;
-			$projectTimeTotalarrayPieChart[$litres] = $sum_total;
-			$country ="country".$diff;
-			$identifiernonprojectarrayPieChart  = array($country => 'Non Projects');
-			$identifierprojectarrayPieChart  = array($country => 'Projects');
-			$mergednonprojectTimeTotalarrayPieChart = array_merge($identifiernonprojectarrayPieChart, $nonprojectTimeTotalarrayPieChart);
-			$mergedprojectTimeTotalarrayPieChart = array_merge($identifierprojectarrayPieChart, $projectTimeTotalarrayPieChart);
-			//print_r($mergedprojectTimeTotalarrayPieChart);
-			$mergednonprojectTimeTotalarrayPieChart_encode = json_encode($mergednonprojectTimeTotalarrayPieChart);
-			$mergedprojectTimeTotalarrayPieChart_encode = json_encode($mergedprojectTimeTotalarrayPieChart);
-			$charpiearr = $mergednonprojectTimeTotalarrayPieChart_encode.",".$mergedprojectTimeTotalarrayPieChart_encode;
-			$charpiearr.", ".$litres.", ".$country;
-			my_piechart($charpiearr, $litres, $country);
-			$diff++;
-			$charpiearr = " ";
+			//echo "</pre>";/**/			
+			$country ="date";				
+			// Declare month number and initialize it 
+			$monthNum = $month;   
+			// Create date object to store the DateTime format 
+			$dateObj = DateTime::createFromFormat('!Ymd', $monthNum);   
+			// Store the month name to variable 
+			$monthName = '2020-'.$month.'-01'; 
+			$identifiernonprojectarrayPieChart  = array($country => $monthName);
+
+			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $workingDaysInaMonth[$s], "value4" => $total_expect_hrs_project[$s][0]); 
+			//$nonprojectTimeTotalarrayPieChartend = array("value1" => 250, "value2" => 250, "value3" => 250, "value4" => 250);$mergedprojectTimeTotalarrayPieChart_encode 
+			$mergednonprojectTimeTotalarrayPieChart =  $nonprojectTimeTotalarrayPieChart;
+			$mergednonprojectTimeTotalarrayPieChart_encode .= json_encode($mergednonprojectTimeTotalarrayPieChart).",";			
+			$charpiearr = $mergednonprojectTimeTotalarrayPieChart_encode;
+		    $charpiearr.", ".$litres.", ".$country;
+			$diff = rand(100, 200);
+			$difff = rand(150, 170);
 			//echo $month;
-			if($month == '12'){
-				break;
+			//echo $third_m;
+			if($month == $third_m){
+				//break;
+				//print_r($charpiearr);
+				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
+				//echo "<h1>Date </h1>";		
+				
+				//echo date('Y-F-d', );
+				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
+				//echo "<br />";
+				my_piechart($charpiearr, $month_input[2]);
+
+
 			}
-			
+			$charpiearr = " ";
 			// 
+			$s += 1;
 		}
 
 	}
 		
-	echo "<pre>";
-	//print_r($arr_output_nonprojects[$val][$dates]['timesheet_id']);
-	echo "</pre>";
-	break;
-	
-}	
+
+}
+
 ?>
+
 <?php
-//print_r($nonprojectTimeTotalarrayPieChart)."<br />";
-$arr = array( "country" => 'Projects', "litres" => 118);
-$arr01 = array("country" => 'Non Projects', "litres" => 60);
-
-//echo json_encode($nonprojectTimeTotalarrayPieChart);
- $arrenc = json_encode($arr);
- $arrenc01 = json_encode($arr01);
- global  $charpiearrr;
- $charpiearrr = $arrenc.",".$arrenc01;
- //print_r($charpiearrr);
- for($t=0; $t<=2; $t++){
-	//my_piechart();
- }
-
+function my_piechart($charpiearr, $year){
+//print_r($charpiearr);
 ?>
+
 <!-- Styles -->
 <style>
-#chartdiv {
-  width: 90%;
-  height: 300px;
-  margin-top: -200px;
+#chartdivvv {
+  width: 100%;
+  height: 500px;
 }
 
 </style>
 
-<?php
-function my_piechart($charpiearr, $litres, $country){
-
-?>
 <!-- Resources -->
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-
-
-	
 
 <!-- Chart code -->
 <script>
@@ -347,34 +354,123 @@ am4core.ready(function() {
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-var chart = am4core.create("chartdiv", am4charts.PieChart3D);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+// Create chart instance
+var chart = am4core.create("chartdivvv", am4charts.XYChart);
 
-chart.legend = new am4charts.Legend();
+chart.colors.step = 2;
+chart.maskBullets = false;
 
+// Add data
 chart.data = [
-
-	<?php echo $charpiearr ?>
-
-  
+	
+	<?php echo $charpiearr; ?>
 ];
 
-var series = chart.series.push(new am4charts.PieSeries3D());
-var country = <?php echo "\"$country\""; ?>;
-var litres = <?php echo "\"$litres\""; ?>;
-series.dataFields.value = litres;
-series.dataFields.category = country;
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.renderer.minGridDistance = 50;
+dateAxis.renderer.grid.template.disabled = true;
+dateAxis.renderer.fullWidthTooltip = true;
+dateAxis.title.text = "Months for Year: "+<?php echo $year; ?>;
 
-}); // end ?php echo $charpiearr ?>;am4core.ready()var country;
+var distanceAxis = chart.yAxes.push(new am4charts.ValueAxis());
+distanceAxis.title.text = "Hours";
+
+var latitudeAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var distanceSeries = chart.series.push(new am4charts.ColumnSeries());
+distanceSeries.dataFields.valueY = "value1";
+distanceSeries.dataFields.dateX = "date";
+distanceSeries.yAxis = distanceAxis;
+distanceSeries.tooltipText = "Project Hrs: {valueY} ";
+distanceSeries.name = "Project Hrs";
+distanceSeries.columns.template.fillOpacity = 0.7;
+distanceSeries.columns.template.propertyFields.strokeDasharray = "dashLength";
+distanceSeries.columns.template.propertyFields.fillOpacity = "alpha";
+distanceSeries.showOnInit = true;
+distanceSeries.stacked = true;
+
+var distanceState = distanceSeries.columns.template.states.create("hover");
+distanceState.properties.fillOpacity = 0.9;
+
+// Create series
+var distanceSeriess = chart.series.push(new am4charts.ColumnSeries());
+distanceSeriess.dataFields.valueY = "value2";
+distanceSeriess.dataFields.dateX = "date";
+distanceSeriess.yAxis = distanceAxis;
+distanceSeriess.tooltipText = "Non Project Hrs: {valueY} ";
+distanceSeriess.name = "Non Project Hrs";
+distanceSeriess.columns.template.fillOpacity = 0.7;
+distanceSeriess.columns.template.propertyFields.strokeDasharray = "dashLength";
+distanceSeriess.columns.template.propertyFields.fillOpacity = "alpha";
+distanceSeriess.showOnInit = true;
+distanceSeriess.stacked = true;
+
+var distanceStatee = distanceSeriess.columns.template.states.create("hover");
+distanceStatee.properties.fillOpacity = 0.9;
+
+var durationSeries = chart.series.push(new am4charts.LineSeries());
+durationSeries.dataFields.valueY = "value4";
+durationSeries.dataFields.dateX = "date";
+durationSeries.yAxis = distanceAxis;
+durationSeries.name = "Project Expected Hrs";
+durationSeries.strokeWidth = 2;
+durationSeries.propertyFields.strokeDasharray = "dashLength";
+durationSeries.tooltipText = "Project Expected Hrs: {valueY}";
+durationSeries.showOnInit = true;
+
+var durationBullet = durationSeries.bullets.push(new am4charts.Bullet());
+var durationRectangle = durationBullet.createChild(am4core.Rectangle);
+durationBullet.horizontalCenter = "middle";
+durationBullet.verticalCenter = "middle";
+durationBullet.width = 7;
+durationBullet.height = 7;
+durationRectangle.width = 7;
+durationRectangle.height = 7;
+
+var durationState = durationBullet.states.create("hover");
+durationState.properties.scale = 1.2;
+
+var latitudeSeries = chart.series.push(new am4charts.LineSeries());
+latitudeSeries.dataFields.valueY = "value3";
+latitudeSeries.dataFields.dateX = "date";
+latitudeSeries.yAxis = distanceAxis;
+latitudeSeries.name = "Expected Hrs";
+latitudeSeries.strokeWidth = 2;
+latitudeSeries.propertyFields.strokeDasharray = "dashLength";
+latitudeSeries.tooltipText = "Total Expected Hrs: {valueY}";
+latitudeSeries.showOnInit = true;
+
+var latitudeBullet = latitudeSeries.bullets.push(new am4charts.CircleBullet());
+latitudeBullet.circle.fill = am4core.color("#fff");
+latitudeBullet.circle.strokeWidth = 2;
+latitudeBullet.circle.propertyFields.radius = "townSize";
+
+var latitudeState = latitudeBullet.states.create("hover");
+latitudeState.properties.scale = 1.2;
+
+var latitudeLabel = latitudeSeries.bullets.push(new am4charts.LabelBullet());
+latitudeLabel.label.text = "{townName2}";
+latitudeLabel.label.horizontalCenter = "left";
+latitudeLabel.label.dx = 14;
+
+// Add legend
+chart.legend = new am4charts.Legend();
+
+// Add cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.fullWidthLineX = true;
+chart.cursor.xAxis = dateAxis;
+chart.cursor.lineX.strokeOpacity = 0;
+chart.cursor.lineX.fill = am4core.color("#000");
+chart.cursor.lineX.fillOpacity = 0.1;
+
+}); // end am4core.ready()
 </script>
 
-<!-- HTML  {
-    country: "Projects",
-    litres: 501.9
-  },
-  {
-    country: "Czech Republic",
-    litres: 301.9
-  }, -->
-<div id="chartdiv"></div>
+<!-- HTML -->
+<div id="chartdivvv"></div>
+
 <? }?>
