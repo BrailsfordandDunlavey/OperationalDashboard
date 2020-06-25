@@ -19,14 +19,14 @@ global $wpdb;
 global $first_arr;
 $first_arr = array();
 
-
+/*
 $table = 'timesheets';
 $client_table = 'projects';
 $table_name = $wpdb->prefix . $table;
 $client_table_name = $wpdb->prefix . $client_table; 
 $result_spheres = $wpdb->get_results("SELECT * FROM $table_name INNER JOIN $client_table_name ON ID = project_id
 WHERE timesheet_date BETWEEN UNIX_TIMESTAMP('2020-01-01') AND UNIX_TIMESTAMP('2020-04-01')");
-/*
+
 $result_nonproject_spheres = $wpdb->get_results(
 			"SELECT * FROM $table_name
 				WHERE timesheet_date BETWEEN UNIX_TIMESTAMP('2020-01-01') AND UNIX_TIMESTAMP('2020-04-01') AND (project_id LIKE '%Vacation%'
