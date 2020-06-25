@@ -29,7 +29,7 @@ global $wpdb;
 			WHERE user_id = $current_user_id");
 
 	$array = json_decode(json_encode($result), true);
-/*
+
 			$result_nonproject = $wpdb->get_results(
 				"SELECT * FROM $table_name
 					WHERE user_id = $current_user_id AND (project_id LIKE '%Vacation%'
@@ -88,7 +88,7 @@ echo "<br />";
 echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
 echo "</pre>";
-	
+/*
 require "form_DatePicker.html";
 //print_r($_POST['date']);
 if($_POST['date']){
