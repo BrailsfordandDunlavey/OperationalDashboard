@@ -23,7 +23,7 @@ $table_emp_sup = 'useradd';
 			WHERE ud.reports_to = $current_user_id_members");
 //print_r($result_emp_sup);
 
-
+/*
 $current_user_id = $user_id; 
 global $wpdb;
 $table = 'timesheets';
@@ -75,6 +75,7 @@ foreach($result_nonproject as $key_nonprojects=>$arr_nonprojects){
 //print_r($result_emp_sup);
 //print_r($user_id = $result_emp_sup);
 //require_once 'timesheetdataprojectemps.php';
+*/
 $c = 0;
 $ch = 70;
 
@@ -98,7 +99,7 @@ foreach($result_emp_sup as $key => $vals){
 		$team_management_position[] = $val_teamsemp->position;
 	}
 
-	$expected_hours_pertitle_array = array(1 => 67, 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
+	//$expected_hours_pertitle_array = array(1 => 67, 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
 	//echo "Hello World";
 	//print_r($team_management_teams);
 	global $the_sum_total;
