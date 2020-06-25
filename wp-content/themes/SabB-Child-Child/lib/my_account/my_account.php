@@ -317,14 +317,14 @@ function ProjectTheme_my_account_area_main_function()
 		<div class ="box_title"><b>My Activity</b></div>
 			<div class="my_box3">
 				<div class ="padd10">	
-				<?php require_once 'timesheetdataproject.php'; ?>	
+				<?php //require_once 'timesheetdataproject.php'; ?>	
 				 
 				</div>
 				
 			</div>
 	</div>
 	<div style="margin-left: -370px;">
-		<?php //require_once 'timesheetdataprojectemps.html'; ?>
+		<?php require_once 'timesheetdataprojectemps.html'; ?>
 	</div>
 	<div id="content" class="account-main-area">		
 	<div class ="box_title"><b>My Activity</b></div>
