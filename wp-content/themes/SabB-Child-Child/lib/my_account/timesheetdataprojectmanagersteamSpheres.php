@@ -18,7 +18,7 @@
 global $wpdb;
 global $first_arr;
 $first_arr = array();
-
+/*
 
 $table = 'timesheets';
 $client_table = 'projects';
@@ -77,7 +77,7 @@ $spheres_arr = array("Functional", "Higher Ed", "KMV");
 
 foreach($spheres_arr as $sphk => $sphv){
 $team_management_position = array();
-/**/	$table_emp_sup = 'useradd';
+/	$table_emp_sup = 'useradd';
 		$client_table_emp = 'users';
 		$table_name_emp_sup = $wpdb->prefix . $table_emp_sup;
 		$client_table_name_emp = $wpdb->prefix . $client_table_emp; 
@@ -443,4 +443,4 @@ function mySpheresChart($charpiearr, $chartdivv){
 	
 	<!-- HTML -->
 	<div id=<?php echo $chartdivv; ?> ></div>
-	<?php } ?>
+	<?php } ?>*/
