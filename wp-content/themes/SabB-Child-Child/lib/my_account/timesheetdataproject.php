@@ -16,7 +16,7 @@ echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
 $current_user = wp_get_current_user();
 
-/*
+
 
 global $wpdb;
     $table = 'timesheets';
@@ -474,4 +474,4 @@ chart.cursor.lineX.fillOpacity = 0.1;
 <!-- HTML -->
 <div id="chartdivvv"></div>
 
-<? }?>*/
+<? }?>
