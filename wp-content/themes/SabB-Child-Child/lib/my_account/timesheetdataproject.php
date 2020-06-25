@@ -12,10 +12,11 @@
 ***************************************************************************/
 
 $current_user_id = get_current_user_id();
-//echo $current_user_id;
+echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
 $current_user = wp_get_current_user();
 
+/*
 
 global $wpdb;
     $table = 'timesheets';
@@ -37,7 +38,7 @@ global $wpdb;
 					OR project_id LIKE '0001'
 					OR project_id LIKE 'Sick'
 					OR project_id LIKE '0001MK'
-					OR project_id LIKE 'BEREAV')/**/");
+					OR project_id LIKE 'BEREAV')");
 			
 	$array_nonprojects = json_decode(json_encode($result_nonproject), true);
 		
@@ -48,7 +49,7 @@ global $wpdb;
 	$result_emp_sup = $wpdb->get_results(
 		"SELECT user_id, position FROM $table_name_emp_sup ud			 		    
 			WHERE ud.user_id = $current_user_id");
-/**/
+
 //	$length = count($result);user_id, reports_to,
 //	$length = $length - 1;INNER JOIN $table_emp_sup uu ON ud.user_id = uu.ID 
    $arr_output = array();
@@ -266,9 +267,9 @@ foreach($years as $val){
 			for($u=0;$u<=2100;$u++){
 				unset($projectTimeTotalarray[$u]);
 			}
-			/*
+			
 			 
-			*/
+			
 			//echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
 			round($sum_total);
 			//echo "<br />";
@@ -282,7 +283,7 @@ foreach($years as $val){
 			//echo "</pre>";
 			//echo "<h1>Total Number of Hours Non-project Percent</h1>";		
 			round(100 * ($non_project_sumtotal/$total))."%";
-			//echo "</pre>";/**/			
+			//echo "</pre>";			
 			$country ="date";				
 			// Declare month number and initialize it 
 			$monthNum = $month;   
@@ -473,4 +474,4 @@ chart.cursor.lineX.fillOpacity = 0.1;
 <!-- HTML -->
 <div id="chartdivvv"></div>
 
-<? }?>
+<? }?>*/
