@@ -88,7 +88,7 @@ echo "<br />";
 echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
 echo "</pre>";
-/*
+
 require "form_DatePicker.html";
 //print_r($_POST['date']);
 if($_POST['date']){
@@ -475,4 +475,4 @@ chart.cursor.lineX.fillOpacity = 0.1;
 <!-- HTML -->
 <div id="chartdivvv"></div>
 
-<? }?>*/
+<? }?>
