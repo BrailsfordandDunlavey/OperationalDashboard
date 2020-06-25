@@ -42,7 +42,7 @@ $result_nonproject_spheres = $wpdb->get_results(
 //$array = json_decode(json_encode($result), true);		
 //$array_nonprojects = json_decode(json_encode($result_nonproject),$result_nonproject true JSON_HEX_QUOT | JSON_HEX_TAG);
 
-	
+/*	
 $arr_output = array();
 //print_r($array_nonprojects);
 foreach($result_spheres as $key=>$arr){
@@ -56,7 +56,7 @@ foreach($result_spheres as $key=>$arr){
 
 //print_r($arr_output['2020']['01']['0']);
 /////Non-Project Hours/////////////
-global $arr_output_nonprojects; 
+//global $arr_output_nonprojects; 
 $arr_output_nonprojects = array();
 foreach($result_nonproject_spheres as $key_nonprojects=>$arr_nonprojects){
 	$timesheet_date_nonprojects = $arr_nonprojects->timesheet_date;
@@ -71,7 +71,7 @@ foreach($result_nonproject_spheres as $key_nonprojects=>$arr_nonprojects){
 $expected_hours_pertitle_array = array(1 => 67, 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
 $c = 90;
 $s = 0;
-/*
+
 echo "<table style=\"table-layout: fixed; width: 100%\"><tr>";
 $spheres_arr = array("Functional", "Higher Ed", "KMV");
 
