@@ -19,7 +19,7 @@ global $wpdb;
 global $first_arr;
 $first_arr = array();
 
-$member_spheres_arr = array(0 => array(0 => 28, 1=>28, 2=>28), 1 => array(0 => 50, 1=>50, 2=>50), 2 => array(0 => 42, 1=>42, 2=>42));
+$member_spheres_arr = array(0 => array(0 => 40, 1=>40, 2=>40), 1 => array(0 => 50, 1=>50, 2=>50), 2 => array(0 => 42, 1=>42, 2=>42));
 $c = 90;
 $s = 0;
 
@@ -42,25 +42,23 @@ $team_management_position = array();
 		//$team_management_spheres[$vals_spheres->sphere][] = $vals_spheres->user_id;
 		$team_management_position[] = $vals_spheres->position;
 	}
-
-	$workingDaysInaMonthmembers[0] = "";			
-		$workingDaysInaMonthmembers[1] = "";			
-		$workingDaysInaMonthmembers[2] = "";
-	
+		
 	foreach($team_management_spheres as $key => $vals){
 		// = array();user_id, sphere, position
 		
 		$total_numbers_spheres = total_number_hrs_sphere($vals, $arr_output, $arr_output_nonprojects);
-		$workingDaysInaMonthmembers = $total_numbers_spheres[2];		
-		    $workingDaysInaMonthmembers[0] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[0];			
-			$workingDaysInaMonthmembers[1] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[1];			
-			$workingDaysInaMonthmembers[2] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[2];	
+		$workingDaysInaMonthmembers = $total_numbers_spheres[2];
+		//print_r($workingDaysInaMonthmembers);
+		    
 		$user_id = $vals->user_id;
 		$total_expect_count = count($vals);
-			
-		$workingDaysInaMonthhours = $workingDaysInaMonthmembers[0]/$total_expect_count;
-		$workingDaysInaMonthhoursone = $workingDaysInaMonthmembers[1]/$total_expect_count;
-		$workingDaysInaMonthhourstwo = $workingDaysInaMonthmembers[2]/$total_expect_count;
+		//echo $workingDaysInaMonthhours$workingDaysInaMonthhoursone$workingDaysInaMonthhourstwo$member_spheres_arr[$s][0]$member_spheres_arr[$s][0]
+		//echo $total_expect_count;
+		
+		$workingDaysInaMonthhours = $workingDaysInaMonthmembers[0];
+		$workingDaysInaMonthhoursone = $workingDaysInaMonthmembers[1];
+		$workingDaysInaMonthhourstwo = $workingDaysInaMonthmembers[2];
+		//echo "<br />";
 		//echo $workingDaysInaMonthhoursone;	
 		$expectedhour_monthone_sphere = array();
 		$expectedhour_monthone_sphereone = array();
@@ -83,7 +81,14 @@ $team_management_position = array();
 					$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);	
 		
 		$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo);
-	    $s++;	
+			
+		if($s == 0 OR $s == 1 OR $s == 2){
+			//echo "hello world";
+			$workingDaysInaMonthmembers[0] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[0];			
+			$workingDaysInaMonthmembers[1] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[1];			
+			$workingDaysInaMonthmembers[2] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[2];	
+		}
+		$s++;
 			$first_month = 01;
 			if(!empty($total_numbers_spheres[0])){
 				$expolode_sum_total_num = explode("/", $total_numbers_spheres[0]);				
@@ -114,11 +119,11 @@ $team_management_position = array();
 			$monthName = "2020-".$first_month."-01";
 			$monthNameone = "2020-0".$second_month."-01";
 			$monthNametwo = "2020-0".$third_month."-01";
-			$projectTimeTotalarrayPieChart = array("date" => $monthName, "value1" => $the_sum_total_zero, "value2" => $the_sum_total_zeronon, "value3" => $workingDaysInaMonthmembers[0], "value4" => $total_expect_hrs_project[0][0]); 
+			$projectTimeTotalarrayPieChart = array("date" => $monthName, "value1" => $the_sum_total_zero, "value2" => $the_sum_total_zeronon, "value3" => $workingDaysInaMonthmembers[0], "value4" => round($total_expect_hrs_project[0][0])); 
 
-			$projectTimeTotalarrayPieChartmonthone = array("date" => $monthNameone, "value1" => $the_sum_total_one, "value2" => $the_sum_total_onenon, "value3" => $workingDaysInaMonthmembers[1], "value4" => $total_expect_hrs_project[1][0]); 
+			$projectTimeTotalarrayPieChartmonthone = array("date" => $monthNameone, "value1" => $the_sum_total_one, "value2" => $the_sum_total_onenon, "value3" => $workingDaysInaMonthmembers[1], "value4" => round($total_expect_hrs_project[1][0])); 
 
-			$projectTimeTotalarrayPieChartmonthtwo = array("date" => $monthNametwo, "value1" => $the_sum_total_two, "value2" => $the_sum_total_twonon, "value3" => $workingDaysInaMonthmembers[2], "value4" => $total_expect_hrs_project[2][0]); 
+			$projectTimeTotalarrayPieChartmonthtwo = array("date" => $monthNametwo, "value1" => $the_sum_total_two, "value2" => $the_sum_total_twonon, "value3" => $workingDaysInaMonthmembers[2], "value4" => round($total_expect_hrs_project[2][0])); 
 
 			$mergednonprojectTimeTotalarrayPieChart_encode = json_encode($projectTimeTotalarrayPieChart);			
 			$mergednonprojectTimeTotalarrayPieChart_encodeone = json_encode($projectTimeTotalarrayPieChartmonthone);			
