@@ -19,57 +19,7 @@ global $wpdb;
 global $first_arr;
 $first_arr = array();
 
-/*
-$table = 'timesheets';
-$client_table = 'projects';
-$table_name = $wpdb->prefix . $table;
-$client_table_name = $wpdb->prefix . $client_table; 
-$result_spheres = $wpdb->get_results("SELECT * FROM $table_name INNER JOIN $client_table_name ON ID = project_id
-WHERE timesheet_date BETWEEN UNIX_TIMESTAMP('2020-01-01') AND UNIX_TIMESTAMP('2020-04-01')");
-
-$result_nonproject_spheres = $wpdb->get_results(
-			"SELECT * FROM $table_name
-				WHERE timesheet_date BETWEEN UNIX_TIMESTAMP('2020-01-01') AND UNIX_TIMESTAMP('2020-04-01') AND (project_id LIKE '%Vacation%'
-				OR project_id LIKE '%Holiday%'						 				
-				OR project_id LIKE '%HR%'
-				OR project_id LIKE '0001'
-				OR project_id LIKE 'Sick'
-				OR project_id LIKE '0001MK'
-				OR project_id LIKE 'BEREAV')");
-//print_r($result_spheres);
-//$array_spheres = json_decode(json_encode($result_spheres), true);
-
-//$array = json_decode(json_encode($result), true);		
-//$array_nonprojects = json_decode(json_encode($result_nonproject),$result_nonproject true JSON_HEX_QUOT | JSON_HEX_TAG);
-
-	
-$arr_output = array();
-//print_r($array_nonprojects);
-foreach($result_spheres as $key=>$arr){
-	$timesheet_date = $arr->timesheet_date;
-	$date = date('Y-m-d', $timesheet_date);
-	$arr_dates = explode("-", $date);
-	$year = $arr_dates[0];
-	$month = $arr_dates[1];	   
-	$arr_output[$year][$month][] = $arr;
-}
-
-//print_r($arr_output['2020']['01']['0']);
-/////Non-Project Hours/////////////
-//global $arr_output_nonprojects; 
-$arr_output_nonprojects = array();
-foreach($result_nonproject_spheres as $key_nonprojects=>$arr_nonprojects){
-	$timesheet_date_nonprojects = $arr_nonprojects->timesheet_date;
-	$date_nonprojects = date('Y-m-d', $timesheet_date_nonprojects);
-	$arr_dates_nonprojects = explode("-", $date_nonprojects);
-	$year_nonprojects = $arr_dates_nonprojects[0];
-	$month_nonprojects = $arr_dates_nonprojects[1];	   
-	$arr_output_nonprojects[$year_nonprojects][$month_nonprojects][] = $arr_nonprojects;
-}
-
-
-$expected_hours_pertitle_array = array(1 => 67, 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
-*/
+$member_spheres_arr = array(0 => array(0 => 28, 1=>28, 2=>28), 1 => array(0 => 50, 1=>50, 2=>50), 2 => array(0 => 42, 1=>42, 2=>42));
 $c = 90;
 $s = 0;
 
@@ -92,17 +42,19 @@ $team_management_position = array();
 		//$team_management_spheres[$vals_spheres->sphere][] = $vals_spheres->user_id;
 		$team_management_position[] = $vals_spheres->position;
 	}
-	//echo "<pre>";
-	// print_r($team_management_spheres);
-	// echo "</pre>";
+
+	$workingDaysInaMonthmembers[0] = "";			
+		$workingDaysInaMonthmembers[1] = "";			
+		$workingDaysInaMonthmembers[2] = "";
+	
 	foreach($team_management_spheres as $key => $vals){
 		// = array();user_id, sphere, position
 		
 		$total_numbers_spheres = total_number_hrs_sphere($vals, $arr_output, $arr_output_nonprojects);
-		$workingDaysInaMonthmembers = $total_numbers_spheres[2];
-		//print_r($total_numbers_spheres);
-		//echo "<br />";
-		//echo "<br />";
+		$workingDaysInaMonthmembers = $total_numbers_spheres[2];		
+		    $workingDaysInaMonthmembers[0] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[0];			
+			$workingDaysInaMonthmembers[1] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[1];			
+			$workingDaysInaMonthmembers[2] = $member_spheres_arr[$s][0]*$workingDaysInaMonthmembers[2];	
 		$user_id = $vals->user_id;
 		$total_expect_count = count($vals);
 			
@@ -131,9 +83,7 @@ $team_management_position = array();
 					$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);	
 		
 		$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo);
-		$s++;
-		
-	
+	    $s++;	
 			$first_month = 01;
 			if(!empty($total_numbers_spheres[0])){
 				$expolode_sum_total_num = explode("/", $total_numbers_spheres[0]);				
@@ -157,7 +107,8 @@ $team_management_position = array();
 				$the_sum_total_zeronon = $first_arrnon[0];
 				$the_sum_total_onenon = $first_arrnon[1];
 				$the_sum_total_twonon = $first_arrnon[2];
-			}			
+			}
+					
 			$second_month = $first_month + 01;
 			$third_month = $first_month + 02;
 			$monthName = "2020-".$first_month."-01";
@@ -199,14 +150,14 @@ function total_number_hrs_sphere($user_id, $arr_output, $arr_output_nonprojects)
 	$second_m = $month_input[0] + 1;
 	$third_m =  $month_input[0] + 2;
 	$years = array('2020');
-
+    
 	///////////Create the total expected hour line/////////////////////////////////////////
 	// best stored as array, so you can add more than one
 	global $holidays;
 	global $workingDaysInaMonthmembers;
 	$holidays = array('2020-01-01', '2020-01-20', '2020-02-17', '2020-05-25', '2020-07-03', '2020-09-07', '2020-11-26', '2020-11-27', '2020-12-24', '2020-12-25', '2020-12-31');
 	$workingDaysInaMonthmembers = array();
-	$user_id_count_arr = count($user_id);
+	//$user_id_count_arr = count($user_id);
 	//print_r($user_id_count_arr);	
 	for($et=0; $et<=2; $et++){
 			$months_project_totalhours = $month_input[0] + $et;
@@ -237,9 +188,10 @@ function total_number_hrs_sphere($user_id, $arr_output, $arr_output_nonprojects)
 					$days--;
 				}
 			}	
-			//echo $user_id_count_arr;	
-			$workingDaysInaMonthmembers[] = ($days*8.5)*$user_id_count_arr;
+			
+			$workingDaysInaMonthmembers[] = ($days*8.5);
 			}
+			 
 			$user_id_count_arr ="";
 //print_r($workingDaysInaMonthmembers);
 	$d=0;
