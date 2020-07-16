@@ -76,7 +76,7 @@ global $wpdb;
    }
    
    //$arr_output = $arr_output[0];
-echo "This is my time analysis";
+//echo "This is my time analysis";
 /*echo "<h1>Leader Time Analysis : </h1>";
 echo $current_user->display_name;
 echo "<br />";
@@ -319,7 +319,7 @@ foreach($years as $val){
 			//echo $third_m;
 			if($month == 05){
 				//break;
-				//print_r($charpiearr);
+				print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
 				//echo "<h1>Date </h1>";		
 				
