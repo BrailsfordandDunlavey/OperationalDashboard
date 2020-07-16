@@ -305,7 +305,7 @@ foreach($years as $val){
 
 
 			echo "<pre>";
-			//print_r($total_expect_hrs_project);
+			print_r($total_expect_hrs_project);
 			echo "</pre>";
 			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $workingDaysInaMonth[$s], "value4" => $total_expect_hrs_project[$s][0]); 
 			//$nonprojectTimeTotalarrayPieChartend = array("value1" => 250, "value2" => 250, "value3" => 250, "value4" => 250);$mergedprojectTimeTotalarrayPieChart_encode 
@@ -317,16 +317,16 @@ foreach($years as $val){
 			$difff = rand(150, 170);
 			//echo $month;
 			//echo $third_m;
-			if($month == 04){
+			if($month == 05){
 				//break;  
-				print_r($charpiearr);
+				//print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
 				//echo "<h1>Date </h1>";		
 				echo "checking iffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 				//echo date('Y-F-d', );
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
-				//echo "<br />";, $month_input[2]
-				my_piechartt($charpiearr);
+				//echo "<br />";
+				my_piechartt($charpiearr, $month_input[2]);
 
 
 			}
@@ -343,8 +343,8 @@ foreach($years as $val){
 ?>
 
 <?php
-function my_piechartt($charpiearr){
-//print_r($charpiearr);, $year+<?php echo $year; ?
+function my_piechartt($charpiearr, $year){
+print_r($charpiearr);
 ?>
 
 <!-- Styles -->
