@@ -26,7 +26,7 @@ global $wpdb;
 	$result = $wpdb->get_results(
 		"SELECT * FROM $table_name
 		    INNER JOIN $client_table_name ON ID = project_id
-			WHERE user_id = $current_user_id AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-08-01')");
+			WHERE user_id = $current_user_id AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-07-01')");
 
 	$array = json_decode(json_encode($result), true);
 
@@ -38,7 +38,7 @@ global $wpdb;
 					OR project_id LIKE '0001'
 					OR project_id LIKE 'Sick'
 					OR project_id LIKE '0001MK'
-					OR project_id LIKE 'BEREAV') AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-08-01')");
+					OR project_id LIKE 'BEREAV') AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-07-01')");
 			
 	$array_nonprojects = json_decode(json_encode($result_nonproject), true);
 		
@@ -76,7 +76,7 @@ global $wpdb;
    }
    
    //$arr_output = $arr_output[0];
-
+echo "This is my time analysis";
 /*echo "<h1>Leader Time Analysis : </h1>";
 echo $current_user->display_name;
 echo "<br />";
