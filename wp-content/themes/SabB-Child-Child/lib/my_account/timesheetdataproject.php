@@ -270,8 +270,9 @@ foreach($years as $val){
 			print_r($team_management_position);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
-					if($val_idExpect == $key_expectedHrsPercent){					
-						echo $expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
+					if($val_idExpect == $key_expectedHrsPercent){	
+						echo $expected_hours_pertitle_array;		
+						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
 						$expectedhour_monthone_spherethree[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[3];
