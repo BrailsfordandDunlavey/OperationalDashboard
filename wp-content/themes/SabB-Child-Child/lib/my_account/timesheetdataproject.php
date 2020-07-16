@@ -267,11 +267,11 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			print_r($team_management_position);
+			print_r($$workingDaysInaMonth);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){	
-						echo $expected_hours_pertitle_array;		
+						print_r($expected_hours_pertitle_array);		
 						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
