@@ -267,11 +267,11 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			//print_r($workingDaysInaMonth);
+			print_r($team_management_position);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){					
-						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
+						echo $expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
 						$expectedhour_monthone_spherethree[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[3];
@@ -287,7 +287,7 @@ foreach($years as $val){
 					}
 				}
 			}	
-						echo $added_expected[] = array_sum($expectedhour_monthone_sphere);
+						$added_expected[] = array_sum($expectedhour_monthone_sphere);
 						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
 						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);
 						$added_expectedthree[] = array_sum($expectedhour_monthone_spherethree);
