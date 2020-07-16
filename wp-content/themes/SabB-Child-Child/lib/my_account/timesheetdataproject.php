@@ -267,11 +267,11 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			print_r($workingDaysInaMonth);
+			//print_r($workingDaysInaMonth);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){	
-						//print_r($expected_hours_pertitle_array);		
+						print_r(($val_expectedHrsPercent/100)*$workingDaysInaMonth[0]);		
 						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
@@ -323,7 +323,7 @@ foreach($years as $val){
 				//print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
 				//echo "<h1>Date </h1>";		
-				echo "checking iffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+				//echo "checking iffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 				//echo date('Y-F-d', );
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
 				//echo "<br />";
@@ -345,7 +345,7 @@ foreach($years as $val){
 
 <?php
 function my_piechartt($charpiearr, $year){
-print_r($charpiearr);
+//print_r($charpiearr);
 ?>
 
 <!-- Styles -->
