@@ -267,7 +267,7 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			//print_r($workingDaysInaMonth);
+			print_r($expected_hours_pertitle_array);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){
