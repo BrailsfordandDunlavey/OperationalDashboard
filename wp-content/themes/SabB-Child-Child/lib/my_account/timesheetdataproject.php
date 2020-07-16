@@ -262,7 +262,7 @@ foreach($years as $val){
 			// Create date object to store the DateTime format $monthName
 			$dateObj = DateTime::createFromFormat('!Ymd', $monthNum);   
 			// Store the month name to variable 
-			//print_r($val);
+			//print_r($val);*$workingDaysInaMonth[0]
 			$monthName = $val.'-'.$month.'-01'; 
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
@@ -271,8 +271,8 @@ foreach($years as $val){
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){
-						//echo $val_expectedHrsPercent;
-						//print_r(($val_expectedHrsPercent/100)*$workingDaysInaMonth[0]);		
+						echo $val_expectedHrsPercent;
+						print_r(($val_expectedHrsPercent/100));		
 						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
