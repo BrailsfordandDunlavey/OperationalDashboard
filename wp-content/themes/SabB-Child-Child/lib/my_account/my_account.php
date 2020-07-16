@@ -54,11 +54,24 @@ function ProjectTheme_my_account_area_main_function()
 	}
 	
 	?>
+		
+		<div id="content" class="account-main-area">		
+			<div class ="box_title"><b>My Activity</b></div>
+				<div class="my_box3">
+					<div class ="padd10">
+						<div id="content" class="account-main-area">
+						<div class="box_title"><div class="padd10"><?php echo "Welcome ".$current_user->display_name." to the Operational Dashboard!!!";?></div></div>	
+						<?php require_once 'timesheetdataproject.php'; ?>	
+						<?php require_once 'timesheetdatapro.php'; ?>			 
+					</div>				
+				</div>
+		</div>
+	</div>
+	<div id="right-sidebar" class="page-sidebar"><div class="padd10">
+
+	<div class ="box_title"><b><?php echo "Notices";?></b></div>
 	<div id="content" class="account-main-area">
-	<div class="box_title"><div class="padd10"><?php echo "Welcome ".$current_user->display_name." to the Operational Dashboard!!!";?></div></div>
-	<div class ="box_title"><b><?php echo "Notices";?></b></div></div>
-	<div id="content" class="account-main-area">
-	<div class="my_box3"><div class ="box_content">	
+		<div class="my_box3"><div class ="box_content">	
 	
 	<?php
 	$notices = 0;
@@ -271,7 +284,10 @@ function ProjectTheme_my_account_area_main_function()
 	?>
 	</div></div>
 	</div>
-	<div id="right-sidebar" class="page-sidebar"><div class="padd10"><h3><?php echo "New Transactions";?></h3>
+
+	<div class="my_box3"><div class ="box_content">	
+	<!--<div id="right-sidebar" class="page-sidebar"><div class="padd10">--><div class ="box_title"><b>New Transactions</b></div><h3><?php //echo "New Transactions";?></h3>
+	
 	<ul class="xoxo">
 		<li class="widget-container widget_text" id="ad-other-details">
 			<ul class="other-dets other-dets2">	
@@ -312,23 +328,14 @@ function ProjectTheme_my_account_area_main_function()
 			</ul>
 		</li>
 	</ul>
-	</div></div>
-	<div id="content" class="account-main-area">		
-		<div class ="box_title"><b>My Activity</b></div>
-			<div class="my_box3">
-				<div class ="padd10">	
-				<?php require_once 'timesheetdataproject.php'; ?>	
-				 
-				</div>
-				
-			</div>
-	</div>
+	
+	
 	<div style="margin-left: -370px;">
-		<?php require_once 'timesheetdataprojectemps.html'; ?>
+		<?php //require_once 'timesheetdataprojectemps.html'; ?>
 	</div>
 	<div id="content" class="account-main-area">		
 	<div class ="box_title"><b>My Activity</b></div>
-	<div class="my_box3"><div class ="padd10">
+	<div class="my_box3"><div class ="padd10" style="width: 140%;">
 	<?php
 	$this_month = strtotime(date('Y-m-01',$today));
 	$last_month = strtotime(date('Y-m-01',$this_month). '-1 month');
@@ -473,6 +480,8 @@ function ProjectTheme_my_account_area_main_function()
 	echo '<a href="/?p_action=employee_projected_hours&ID='.$uid,'" class="my-buttons-submit" style="color:#ffffff;">See/Edit your projections</a>';
 	?>
 	</div></div></div>
+	</div></div>
+	</div></div>
 	<?php
 	if($current_user->ID == 11)
 	{

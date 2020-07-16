@@ -26,7 +26,7 @@ global $wpdb;
 	$result = $wpdb->get_results(
 		"SELECT * FROM $table_name
 		    INNER JOIN $client_table_name ON ID = project_id
-			WHERE user_id = $current_user_id");
+			WHERE user_id = $current_user_id AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-08-01')");
 
 	$array = json_decode(json_encode($result), true);
 
@@ -38,7 +38,7 @@ global $wpdb;
 					OR project_id LIKE '0001'
 					OR project_id LIKE 'Sick'
 					OR project_id LIKE '0001MK'
-					OR project_id LIKE 'BEREAV')");
+					OR project_id LIKE 'BEREAV') AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-08-01')");
 			
 	$array_nonprojects = json_decode(json_encode($result_nonproject), true);
 		
@@ -47,7 +47,7 @@ global $wpdb;
 	$table_name_emp_sup = $wpdb->prefix . $table_emp_sup;
 	$client_table_name_emp = $wpdb->prefix . $client_table_emp; 
 	$result_emp_sup = $wpdb->get_results(
-		"SELECT user_id, position FROM $table_name_emp_sup ud			 		    
+		"SELECT user_id, position, team FROM $table_name_emp_sup ud			 		    
 			WHERE ud.user_id = $current_user_id");
 
 //	$length = count($result);user_id, reports_to,
@@ -77,7 +77,7 @@ global $wpdb;
    
    //$arr_output = $arr_output[0];
 
-echo "<h1>Leader Time Analysis : </h1>";
+/*echo "<h1>Leader Time Analysis : </h1>";
 echo $current_user->display_name;
 echo "<br />";
 print_r($current_user->user_email);
@@ -88,8 +88,8 @@ echo "<br />";
 echo "<form action=\"/button-type\"> <button type=\"button\"><a href=/wp-opdash/time-analysis-non-projects>Time Analysis - Non Project</a></button><label for=\"Time Analysis - Non Project\">Time Analysis - Non Project</label></form>";
 echo "<pre>";
 echo "</pre>";
-
-require "form_DatePicker.html";
+*/
+//require "form_DatePicker.html";
 //print_r($_POST['date']);
 if($_POST['date']){
 $month_input = explode("/", $_POST['date']);
@@ -102,77 +102,49 @@ global $holidays;
 $holidays = array('2020-01-01', '2020-01-20', '2020-02-17', '2020-05-25', '2020-07-03', '2020-09-07', '2020-11-26', '2020-11-27', '2020-12-24', '2020-12-25', '2020-12-31');
 $workingDaysInaMonth = array();
 //print_r($month_input);
-for($et=0; $et<=2; $et++){
+for($et=0; $et<=11; $et++){
 		$months_project_totalhours = $month_input[0] + $et;
-		'0'.$months_project_totalhours;
-		
+		'0'.$months_project_totalhours;		
 		$num_of_days = cal_days_in_month(CAL_GREGORIAN, $months_project_totalhours, $month_input['2']);
 		$start = new DateTime($month_input['2'].'-'.$months_project_totalhours.'-01');
 		$end = new DateTime($month_input['2'].'-'.$months_project_totalhours.'-'.$num_of_days);
 		// otherwise the  end date is excluded (bug?)
 		$end->modify('+1 day');
-
 		$interval = $end->diff($start);
-
 		// total days
 		$days = $interval->days;
-
 		// create an iterateable period of date (P1D equates to 1 day)
 		$period = new DatePeriod($start, new DateInterval('P1D'), $end);
-
 		foreach($period as $dt) {
 			$curr = $dt->format('D');
-
 			// for the updated question
 			if (in_array($dt->format('Y-m-d'), $holidays)) {
 				$days--;
 			}
-
 			// substract if Saturday or Sunday
 			if ($curr == 'Sat' || $curr == 'Sun') {
 				$days--;
 			}
 		}		 
-		$workingDaysInaMonth[] = $days*8.5;
+		$workingDaysInaMonth[] = $days*8;
 }
-
-
 foreach($result_emp_sup as $key_teamsemp => $val_teamsemp){	
 	$team_management_position[] = $val_teamsemp->position;
+	$team_management_teams[$val_teamsemp->team][] = $val_teamsemp->user_id;
+
 }
-
 //print_r($result_emp_sup);
-
 $expected_hours_pertitle_array = array( 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
 global $total_expect_hrs_project;
-$expectedhour_monthone_sphere = array();
-			$expectedhour_monthone_sphereone = array();
-			$expectedhour_monthone_spheretwo = array();
-			$added_expected = array();
-			$added_expectedone = array();
-			$added_expectedtwo = array();
 
-			foreach($team_management_position as $key_idExpect => $val_idExpect){	
-				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
-					if($val_idExpect == $key_expectedHrsPercent){					
-						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
-						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
-						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
-					
-					}
-				}
-			}	
-						$added_expected[] = array_sum($expectedhour_monthone_sphere);
-						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
-						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);	
-						$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo);
 $first_m = '0'. $month_input[0];
 $second_m = '0'. $month_input[0] + 1;
 $third_m = '0'. $month_input[0] + 2;
 
 $nonprojectTimeTotalarrayPieChartbigin = array("value1" => 0, "value2" => 0, "value3" => 0, "value4" => 0);
 $mergedprojectTimeTotalarrayPieChart_encode = json_encode($nonprojectTimeTotalarrayPieChartbigin);
-$years = array($month_input[2]);
+$years = array("2019","2020");
+
 global $projectTimeTotalarray;
 global $nonprojectTimeTotalarray;
 global $charpiearr;
@@ -184,15 +156,20 @@ $nonprojectTimeTotalarrayPieChart  = array();
 $projectTimeTotalarrayPieChart  = array();
 $diff = rand(100,200);
 $difff = rand(100,200);
-///////////////////////////////////////Break this off////////////////////////////////////////
+///////////////////////////////////////Break this off////////////////////////////////////////"2020",
 $s = 0;
 
 foreach($years as $val){
-	
+	$expectedhour_monthone_sphere = array();
+			$expectedhour_monthone_sphereone = array();
+			$expectedhour_monthone_spheretwo = array();
+			$added_expected = array();
+			$added_expectedone = array();
+			$added_expectedtwo = array();
 	foreach($arr_output[$val] as $dates){
 		$exp_months = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
 		$months = $exp_months[1];		
-		if($months == $first_m OR $months == $second_m OR $months == $third_m){
+		//if($months == $first_m OR $months == $second_m OR $months == $third_m){
 		
 			$sum_total = 0;
 			$i = 0;		
@@ -200,13 +177,12 @@ foreach($years as $val){
 			$nonprojectTimeTotalarray = array();
 			$non_project_sumtotal = "";			 
 			foreach($dates as $hours){
-				echo "<pre>";
+				//echo "<pre>";
 					$projectTimeTotalarray[$hours['abbreviated_name']][$i] = $hours['timesheet_hours'];									
 					$sum_total = $hours['timesheet_hours'] + $sum_total;
 					$i++;				
-				echo "</pre>";
-			} 			 
-					
+				//echo "</pre>";
+			} 			 					
 					//echo "<br />";
 					$non_project_count = count($arr_output_nonprojects[$val][$months]);
 					for($l=0; $l<$non_project_count; $l++){
@@ -225,11 +201,8 @@ foreach($years as $val){
 					}											
 		
 			$exp_month = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
-			$month = $exp_month[1];			
-			
-			print_r( );
-						
-			//echo $s;
+			$month = $exp_month[1];	
+
 			$projenArrNames = array();
 			foreach($dates as $porjectnames){
 				//echo $porjectnames['project_name'];		
@@ -267,9 +240,7 @@ foreach($years as $val){
 			$projectTimeTotalarray = array_filter($projectTimeTotalarray);		
 			for($u=0;$u<=2100;$u++){
 				unset($projectTimeTotalarray[$u]);
-			}
-			
-			 
+			}			 
 			
 			//echo "<h1>Total Number of Hours Worked - Projects </h1>";	 
 			round($sum_total);
@@ -288,12 +259,54 @@ foreach($years as $val){
 			$country ="date";				
 			// Declare month number and initialize it 
 			$monthNum = $month;   
-			// Create date object to store the DateTime format 
+			// Create date object to store the DateTime format $monthName
 			$dateObj = DateTime::createFromFormat('!Ymd', $monthNum);   
 			// Store the month name to variable 
-			$monthName = '2020-'.$month.'-01'; 
-			$identifiernonprojectarrayPieChart  = array($country => $monthName);
+			//print_r($val);
+			$monthName = $val.'-'.$month.'-01'; 
+			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
+			
+			//print_r($workingDaysInaMonth);
+			foreach($team_management_position as $key_idExpect => $val_idExpect){	
+				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
+					if($val_idExpect == $key_expectedHrsPercent){					
+						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
+						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
+						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
+						$expectedhour_monthone_spherethree[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[3];
+						$expectedhour_monthone_sphereforth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[4];
+						$expectedhour_monthone_spherefifth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[5];
+						$expectedhour_monthone_spheresith[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[6];
+						$expectedhour_monthone_sphereseventh[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[7];
+						$expectedhour_monthone_sphereeighth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[8];
+						$expectedhour_monthone_spherenineth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[9];
+						$expectedhour_monthone_spheretenth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[10];
+						$expectedhour_monthone_sphereeleventh[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[11];						 
+					
+					}
+				}
+			}	
+						$added_expected[] = array_sum($expectedhour_monthone_sphere);
+						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
+						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);
+						$added_expectedthree[] = array_sum($expectedhour_monthone_spherethree);
+						$added_expectedfourth[] = array_sum($expectedhour_monthone_sphereforth);
+						$added_expectedfifth[] = array_sum($expectedhour_monthone_spherefifth);
+						$added_expectedsixth[] = array_sum($expectedhour_monthone_spheresith);
+						$added_expectedseventh[] = array_sum($expectedhour_monthone_sphereseventh);
+						$added_expectedeighth[] = array_sum($expectedhour_monthone_sphereeighth);
+						$added_expectednineth[] = array_sum($expectedhour_monthone_spherenineth);
+						$added_expectedtenth[] = array_sum($expectedhour_monthone_spheretenth);
+						$added_expectedeleventh[] = array_sum($expectedhour_monthone_sphereeleventh);
+						//$added_expectedeltwelveth[] = array_sum($expectedhour_monthone_sphereeltwelveth);$added_expectedeltwelveth
+
+						$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo, $added_expectedthree, $added_expectedfourth, $added_expectedfifth, $added_expectedsixth, $added_expectedseventh, $added_expectedeighth, $added_expectednineth, $added_expectedtenth, $added_expectedeleventh);
+
+
+			echo "<pre>";
+			//print_r($total_expect_hrs_project);
+			echo "</pre>";
 			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $workingDaysInaMonth[$s], "value4" => $total_expect_hrs_project[$s][0]); 
 			//$nonprojectTimeTotalarrayPieChartend = array("value1" => 250, "value2" => 250, "value3" => 250, "value4" => 250);$mergedprojectTimeTotalarrayPieChart_encode 
 			$mergednonprojectTimeTotalarrayPieChart =  $nonprojectTimeTotalarrayPieChart;
@@ -304,7 +317,7 @@ foreach($years as $val){
 			$difff = rand(150, 170);
 			//echo $month;
 			//echo $third_m;
-			if($month == $third_m){
+			if($month == 05){
 				//break;
 				//print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
@@ -313,14 +326,14 @@ foreach($years as $val){
 				//echo date('Y-F-d', );
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
 				//echo "<br />";
-				my_piechart($charpiearr, $month_input[2]);
+				my_piechartt($charpiearr, $month_input[2]);
 
 
 			}
 			$charpiearr = " ";
 			// 
 			$s += 1;
-		}
+		//}
 
 	}
 		
@@ -330,14 +343,14 @@ foreach($years as $val){
 ?>
 
 <?php
-function my_piechart($charpiearr, $year){
+function my_piechartt($charpiearr, $year){
 //print_r($charpiearr);
 ?>
 
 <!-- Styles -->
 <style>
 #chartdivvv {
-  width: 100%;
+  width: 200%;
   height: 500px;
 }
 
@@ -369,6 +382,7 @@ chart.data = [
 ];
 
 // Create axes
+
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
 dateAxis.renderer.minGridDistance = 50;
@@ -381,6 +395,17 @@ distanceAxis.title.text = "Hours";
 
 var latitudeAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
+// Modify chart's colors
+chart.colors.list = [
+  am4core.color("#216C2A"),
+  am4core.color("#D65DB1"),
+  am4core.color("#FF0000"),
+  am4core.color("#FF9671"),
+  am4core.color("#FFC75F"),
+  am4core.color("#F9F871"),
+];
+
+
 // Create series
 var distanceSeries = chart.series.push(new am4charts.ColumnSeries());
 distanceSeries.dataFields.valueY = "value1";
@@ -390,9 +415,13 @@ distanceSeries.tooltipText = "Project Hrs: {valueY} ";
 distanceSeries.name = "Project Hrs";
 distanceSeries.columns.template.fillOpacity = 0.7;
 distanceSeries.columns.template.propertyFields.strokeDasharray = "dashLength";
-distanceSeries.columns.template.propertyFields.fillOpacity = "alpha";
+distanceSeries.columns.template.propertyFields.fillOpacity = "green";
 distanceSeries.showOnInit = true;
 distanceSeries.stacked = true;
+// Set up tooltips
+distanceSeries.tooltip.label.interactionsEnabled = true;
+distanceSeries.tooltip.keepTargetHover = true;
+distanceSeries.columns.template.tooltipHTML = '<b>{valueY}</b><br><a href="https://en.wikipedia.org/wiki/{category.urlEncode()}">More info</a>';
 
 var distanceState = distanceSeries.columns.template.states.create("hover");
 distanceState.properties.fillOpacity = 0.9;
@@ -468,6 +497,9 @@ chart.cursor.xAxis = dateAxis;
 chart.cursor.lineX.strokeOpacity = 0;
 chart.cursor.lineX.fill = am4core.color("#000");
 chart.cursor.lineX.fillOpacity = 0.1;
+
+
+
 
 }); // end am4core.ready()
 </script>
