@@ -267,7 +267,7 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			//print_r($workingDaysInaMonth);
+			print_r($workingDaysInaMonth);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){					
@@ -305,7 +305,7 @@ foreach($years as $val){
 
 
 			echo "<pre>";
-			print_r($total_expect_hrs_project);
+			//print_r($total_expect_hrs_project);
 			echo "</pre>";
 			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $workingDaysInaMonth[$s], "value4" => $total_expect_hrs_project[$s][0]); 
 			//$nonprojectTimeTotalarrayPieChartend = array("value1" => 250, "value2" => 250, "value3" => 250, "value4" => 250);$mergedprojectTimeTotalarrayPieChart_encode 
