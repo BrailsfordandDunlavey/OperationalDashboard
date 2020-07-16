@@ -12,7 +12,7 @@
 ***************************************************************************/
 
 $current_user_id = get_current_user_id();
-echo $current_user_id;
+//echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
 $current_user = wp_get_current_user();
 
@@ -267,7 +267,7 @@ foreach($years as $val){
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 
 			
-			print_r($workingDaysInaMonth);
+			//print_r($workingDaysInaMonth);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
 				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
 					if($val_idExpect == $key_expectedHrsPercent){					
@@ -287,7 +287,7 @@ foreach($years as $val){
 					}
 				}
 			}	
-						$added_expected[] = array_sum($expectedhour_monthone_sphere);
+						echo $added_expected[] = array_sum($expectedhour_monthone_sphere);
 						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
 						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);
 						$added_expectedthree[] = array_sum($expectedhour_monthone_spherethree);
