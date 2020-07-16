@@ -5,7 +5,7 @@ body {
     color: #333;
     margin: 0px;
     padding: 0px;
-    background: #ECF0F2
+    background: #ffffff
 }
 
 .multi_cat_placeholder_thing {
@@ -840,7 +840,7 @@ a.feed_prj:visited {
 #content {
     float: left;
     padding-top: 0;
-    width: 69%;
+    width: 60%;
     height: auto;
 }
 
@@ -1117,7 +1117,7 @@ a.feed_prj:visited {
     width: 100%;
     overflow: hidden;
     margin: auto;
-    background: #525252;
+    background: #751e1e;
     border-bottom: 4px solid #222222;
 }
 
@@ -1418,7 +1418,7 @@ a.bighi:hover {
 .my_box3 {
     width: 100%;
     height: auto;
-    border: 1px solid #e9e9e9;
+    border: 0px solid #e9e9e9;
     margin-bottom: 20px;
     padding-bottom: 20px;
     background: #fff;
@@ -1841,7 +1841,7 @@ a.edit_project_pay_cls:hover {
 
 .page-sidebar {
     background: white;
-    border: 1px solid #e9e9e9
+    border: 0px solid #e9e9e9
 }
 
 .page-sidebar .xoxo {
@@ -4308,7 +4308,7 @@ only screen and (min-resolution: 2dppx) and (max-width: 1024px) {
     Maximal Width
    =============== */
     .wrapper {
-        width: 980px;
+        width: 1800px;
         /* 1140px - 10% for margins */
         margin: 0 auto;
     }
@@ -4337,7 +4337,7 @@ only screen and (min-resolution: 2dppx) and (max-width: 1024px) {
         width: 340px
     }
     #content {
-        width: 59%;
+        width: 55%;
         float: left
     }
     #footer-widget-area .widget-area {
