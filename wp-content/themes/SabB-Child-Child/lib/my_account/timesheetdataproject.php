@@ -90,7 +90,7 @@ echo "<pre>";
 echo "</pre>";
 */
 //require "form_DatePicker.html";
-print_r($arr_output_nonprojects);
+//print_r($arr_output_nonprojects);
 if($_POST['date']){
 $month_input = explode("/", $_POST['date']);
 }else{
@@ -133,7 +133,7 @@ foreach($result_emp_sup as $key_teamsemp => $val_teamsemp){
 	$team_management_teams[$val_teamsemp->team][] = $val_teamsemp->user_id;
 
 }
-print_r($result_emp_sup);
+//print_r($result_emp_sup);
 $expected_hours_pertitle_array = array( 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
 global $total_expect_hrs_project;
 
@@ -317,16 +317,16 @@ foreach($years as $val){
 			$difff = rand(150, 170);
 			//echo $month;
 			//echo $third_m;
-			if($month == 05){
-				//break;
+			if($month == 04){
+				//break;  
 				print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
 				//echo "<h1>Date </h1>";		
-				
+				echo "checking iffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 				//echo date('Y-F-d', );
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
-				//echo "<br />";
-				my_piechartt($charpiearr, $month_input[2]);
+				//echo "<br />";, $month_input[2]
+				my_piechartt($charpiearr);
 
 
 			}
@@ -343,8 +343,8 @@ foreach($years as $val){
 ?>
 
 <?php
-function my_piechartt($charpiearr, $year){
-//print_r($charpiearr);
+function my_piechartt($charpiearr){
+//print_r($charpiearr);, $year+<?php echo $year; ?
 ?>
 
 <!-- Styles -->
