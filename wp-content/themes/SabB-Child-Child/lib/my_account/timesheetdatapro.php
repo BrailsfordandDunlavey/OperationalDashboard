@@ -315,14 +315,7 @@ foreach($years as $val){
 			
 				$mergedprojectTimeTotalarrayPieChart_encodepro .= json_encode($mergedprojectTimeTotalarrayPieChart).",";
 			}
-			$charpiearr = $mergedprojectTimeTotalarrayPieChart_encodepro;
-
-
-
-			
-				
-
-			
+			$charpiearr = $mergedprojectTimeTotalarrayPieChart_encodepro;		
 			
 			//echo $charpiearr.", ".$litres.", ".$country;
 			$arr = array( "country" => 'Projects', "litres" => 118);
@@ -462,8 +455,12 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create(<?php echo $chartdivv; ?>, am4charts.PieChart3D);
 chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-chart.legend = new am4charts.Legend();
-
+/*chart.legend = new am4charts.Legend();
+chart.legend.position = "right";
+chart.legend.scrollable = true;
+chart.legend.width = 120;
+chart.legend.labels.template.truncate = true;
+chart.legend.labels.template.wrap = true;*/
 chart.data = [
 
 	<?php echo $charpiearr ?>
@@ -480,7 +477,6 @@ series.dataFields.value = litres;
 series.tooltip.label.interactionsEnabled = true;
 series.tooltip.keepTargetHover = true;
 series.slices.template.tooltipHTML = '<b>{country}</b><br><a href="https://en.wikipedia.org/wiki/{category.urlEncode()}">More info</a>';
-
 
 }); // end ?php echo $charpiearr ?>;am4core.ready()var country;
 </script>
