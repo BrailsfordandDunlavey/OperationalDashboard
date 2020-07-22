@@ -11,11 +11,17 @@
 *
 ***************************************************************************/
 
-$current_user_id = get_current_user_id();
+
 //echo $current_user_id;
 //echo 'Your User ID is: ' .$current_user_id;project_id NOT LIKE '%[0-9]%'AND project_id = Vacation
-$current_user = wp_get_current_user();
+//$current_user = wp_get_current_user();
+//print_r($_GET['current_user']);
 
+if($_GET['current_user']){
+	$current_user_id = $_GET['current_user'];
+}else{
+	$current_user_id = get_current_user_id();
+}
 
 
 global $wpdb;
@@ -96,6 +102,9 @@ $month_input = explode("/", $_POST['date']);
 }else{
 	$month_input = explode("/", "01/01/2020");
 }
+$user_info = get_user_by("id", $current_user_id);
+$display_name = $user_info->display_name;
+echo "You are currently viewing $display_name dashbord";
 
 // best stored as array, so you can add more than one
 global $holidays;
