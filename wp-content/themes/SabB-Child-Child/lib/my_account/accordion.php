@@ -64,7 +64,7 @@ details[open] summary {
 
    
                  $nameID = $result_name[0]->ID;
-                 echo "<p><a href=http://localhost/wp-opdash/dashboard/?current_user=$nameID>$staff_name</a></p>";
+                 echo "<p><a href=/dashboard/?current_user=$nameID>$staff_name</a></p>";
             }             
             //echo "</div>";
             echo "</details>";
