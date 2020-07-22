@@ -281,8 +281,18 @@ function ProjectTheme_my_account_area_main_function()
 	//-----------------------------------------------------------------------------------------------------------------
 	if($notices == 0){echo "No pending notices at this time";}
 	
+	
 	?>
+     
 	</div></div>
+	</div> 
+
+	<div class="my_box3">
+		<div class ="box_content">	
+			<div class ="box_title"><b>Team Member Activity</b></div>
+			<?php //echo '<a href="/?p_action=employee_projected_hours&ID='.$uid,'" class="my-buttons-submit" style="color:#ffffff;">Team Member Activity</a>';?>
+			<?php require_once 'accordion.php'; ?>
+		</div>
 	</div>
 
 	<div class="my_box3"><div class ="box_content">	
