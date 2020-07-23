@@ -137,6 +137,32 @@ foreach($years as $val){
 			//echo "<div style=\"float: left;\">".$keystotal.": </div>";
 			//echo "<div style=\"padding-left: 200px;\">".$propertotal = round(array_sum($ptotalval));
 			//echo "</div>";
+			switch ($TEAMkeystotal) {
+				case "West":
+					$TEAMkeystotal = "Costa Mesa";
+					break;
+				case "Southeast":
+					$TEAMkeystotal = "Atlanta";
+					break;
+				case "HEIG":
+					$TEAMkeystotal = "CIG";
+					break;
+				case "Central":
+					$TEAMkeystotal = "Austin and Chicago";
+					break;
+				case "Large K-14":
+					$TEAMkeystotal = "Nor Cal, Baltimore, U St.";
+					break;
+				case "East":
+					$TEAMkeystotal = "Boston and DC/Northeast";
+					break;
+				case "Mun & Ven Planning":
+					$TEAMkeystotal = "Municipal and Venues";
+					break;
+				case "Charter School":
+					$TEAMkeystotal = "Charter School";
+					break;				
+			}
 			$consol_TEAMprojectTimeTotalarray[$TEAMkeystotal] = $TEAMnonptotalval; 
 			
 			/*$propertotal = round(array_sum($ptotalval));
@@ -156,9 +182,9 @@ foreach($years as $val){
 
 		
 		
-		echo "<pre>";
+		//echo "<pre>";
 		//print_r($consol_TEAMprojectTimeTotalarray);
-		echo "</pre>";
+		//echo "</pre>";
 		
 		
 
@@ -476,7 +502,7 @@ series.dataFields.value = litres;
 // Set up tooltips
 series.tooltip.label.interactionsEnabled = true;
 series.tooltip.keepTargetHover = true;
-series.slices.template.tooltipHTML = '<b>{country}</b><br><a href="https://en.wikipedia.org/wiki/{category.urlEncode()}">More info</a>';
+series.slices.template.tooltipHTML = '<b>{country}</b><br><a href="{category.urlEncode()}">More info</a>';
 
 }); // end ?php echo $charpiearr ?>;am4core.ready()var country;
 </script>
