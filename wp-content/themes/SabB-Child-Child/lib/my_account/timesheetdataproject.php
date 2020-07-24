@@ -274,7 +274,6 @@ foreach($years as $val){
 			//print_r($val);*$workingDaysInaMonth[0]
 			$monthName = $val.'-'.$month.'-01'; 
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
-
 			
 			//print_r($expected_hours_pertitle_array);
 			foreach($team_management_position as $key_idExpect => $val_idExpect){	
@@ -282,7 +281,7 @@ foreach($years as $val){
 					//echo "::::   ".$val_idExpect .":::::". $key_expectedHrsPercent;
 					if($val_idExpect == $key_expectedHrsPercent){
 						//echo $val_idExpect;
-						$val_expectedHrsPercent = 87;
+						//$val_expectedHrsPercent = 87;
 						//print_r(($val_expectedHrsPercent/100));		
 						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
@@ -313,10 +312,7 @@ foreach($years as $val){
 						$added_expectedtenth[] = array_sum($expectedhour_monthone_spheretenth);
 						$added_expectedeleventh[] = array_sum($expectedhour_monthone_sphereeleventh);
 						//$added_expectedeltwelveth[] = array_sum($expectedhour_monthone_sphereeltwelveth);$added_expectedeltwelveth
-
 						$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo, $added_expectedthree, $added_expectedfourth, $added_expectedfifth, $added_expectedsixth, $added_expectedseventh, $added_expectedeighth, $added_expectednineth, $added_expectedtenth, $added_expectedeleventh);
-
-
 			echo "<pre>";
 			//print_r($total_expect_hrs_project);
 			echo "</pre>";
@@ -340,8 +336,6 @@ foreach($years as $val){
 				//print_r(date('Y-F-d' , $dates[0]['timesheet_date']));
 				//echo "<br />";
 				my_piechartt($charpiearr, $month_input[2]);
-
-
 			}
 			$charpiearr = " ";
 			// 
@@ -434,7 +428,7 @@ distanceSeries.stacked = true;
 // Set up tooltips
 distanceSeries.tooltip.label.interactionsEnabled = true;
 distanceSeries.tooltip.keepTargetHover = true;
-distanceSeries.columns.template.tooltipHTML = '<b>{valueY}</b><br><a href="https://en.wikipedia.org/wiki/{category.urlEncode()}">More info</a>';
+distanceSeries.columns.template.tooltipHTML = '<b>Project Hrs: {valueY}</b><br><a href="{category.urlEncode()}">More info</a>';
 
 var distanceState = distanceSeries.columns.template.states.create("hover");
 distanceState.properties.fillOpacity = 0.9;
