@@ -290,7 +290,7 @@ foreach($years as $val){
 			//print_r($val);*$workingDaysInaMonth[0]
 			$monthName = $val.'-'.$month.'-01'; 
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
-			//echo $total_epected_hour_percent;
+			echo $total_epected_hour_percent;
 			$expectedhour_monthone_sphere[] = $total_epected_hour_percent*$workingDaysInaMonth[0];
 						$expectedhour_monthone_sphereone[] = $total_epected_hour_percent*$workingDaysInaMonth[1];
 						$expectedhour_monthone_spheretwo[] = $total_epected_hour_percent*$workingDaysInaMonth[2];
