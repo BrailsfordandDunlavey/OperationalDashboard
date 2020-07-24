@@ -23,6 +23,7 @@ if($_GET['current_user']){
 	$current_user_id = get_current_user_id();
 }
 
+$user_info = get_user_by("id", $current_user_id);
 
 global $wpdb;
     $table = 'timesheets';
@@ -55,6 +56,18 @@ global $wpdb;
 	$result_emp_sup = $wpdb->get_results(
 		"SELECT user_id, position, team FROM $table_name_emp_sup ud			 		    
 			WHERE ud.user_id = $current_user_id");
+
+
+$table_staff_projecthrs = 'staff';
+	   $table_name_staff_projecthrs = $wpdb->prefix . $table_staff_projecthrs;	
+	   $result_staff_projecthrs = $wpdb->get_results(
+		"SELECT * FROM $table_name_staff_projecthrs		    
+            WHERE Name LIKE '%$user_info->display_name%'");
+
+//echo "<pre>";
+//print_r($result_staff_projecthrs);
+//echo "</pre>";
+$total_epected_hour_percent = $result_staff_projecthrs[0]->ProjectPercent / 100;
 
 //	$length = count($result);user_id, reports_to,
 //	$length = $length - 1;INNER JOIN $table_emp_sup uu ON ud.user_id = uu.ID 
@@ -102,7 +115,7 @@ $month_input = explode("/", $_POST['date']);
 }else{
 	$month_input = explode("/", "01/01/2020");
 }
-$user_info = get_user_by("id", $current_user_id);
+
 $display_name = $user_info->display_name;
 echo "You are currently viewing $display_name dashbord";
 
@@ -168,6 +181,8 @@ $diff = rand(100,200);
 $difff = rand(100,200);
 ///////////////////////////////////////Break this off////////////////////////////////////////"2020",
 $s = 0;
+
+
 
 foreach($years as $val){
 	$expectedhour_monthone_sphere = array();
@@ -275,31 +290,20 @@ foreach($years as $val){
 			//print_r($val);*$workingDaysInaMonth[0]
 			$monthName = $val.'-'.$month.'-01'; 
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
-			
-			//print_r($expected_hours_pertitle_array);
-			foreach($team_management_position as $key_idExpect => $val_idExpect){	
-				foreach($expected_hours_pertitle_array as $key_expectedHrsPercent => $val_expectedHrsPercent){
-					//echo "::::   ".$val_idExpect .":::::". $key_expectedHrsPercent;
-					if($val_idExpect == $key_expectedHrsPercent){
-						//echo $val_idExpect;
-						//$val_expectedHrsPercent = 87;
-						//print_r(($val_expectedHrsPercent/100));		
-						$expectedhour_monthone_sphere[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[0];
-						$expectedhour_monthone_sphereone[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[1];
-						$expectedhour_monthone_spheretwo[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[2];
-						$expectedhour_monthone_spherethree[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[3];
-						$expectedhour_monthone_sphereforth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[4];
-						$expectedhour_monthone_spherefifth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[5];
-						$expectedhour_monthone_spheresith[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[6];
-						$expectedhour_monthone_sphereseventh[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[7];
-						$expectedhour_monthone_sphereeighth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[8];
-						$expectedhour_monthone_spherenineth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[9];
-						$expectedhour_monthone_spheretenth[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[10];
-						$expectedhour_monthone_sphereeleventh[] = ($val_expectedHrsPercent/100)*$workingDaysInaMonth[11];						 
-					
-					}
-				}
-			}	
+			//echo $total_epected_hour_percent;
+			$expectedhour_monthone_sphere[] = $total_epected_hour_percent*$workingDaysInaMonth[0];
+						$expectedhour_monthone_sphereone[] = $total_epected_hour_percent*$workingDaysInaMonth[1];
+						$expectedhour_monthone_spheretwo[] = $total_epected_hour_percent*$workingDaysInaMonth[2];
+						$expectedhour_monthone_spherethree[] = $total_epected_hour_percent*$workingDaysInaMonth[3];
+						$expectedhour_monthone_sphereforth[] = $total_epected_hour_percent*$workingDaysInaMonth[4];
+						$expectedhour_monthone_spherefifth[] = $total_epected_hour_percent*$workingDaysInaMonth[5];
+						$expectedhour_monthone_spheresith[] = $total_epected_hour_percent*$workingDaysInaMonth[6];
+						$expectedhour_monthone_sphereseventh[] = $total_epected_hour_percent*$workingDaysInaMonth[7];
+						$expectedhour_monthone_sphereeighth[] = $total_epected_hour_percent*$workingDaysInaMonth[8];
+						$expectedhour_monthone_spherenineth[] = $total_epected_hour_percent*$workingDaysInaMonth[9];
+						$expectedhour_monthone_spheretenth[] = $total_epected_hour_percent*$workingDaysInaMonth[10];
+						$expectedhour_monthone_sphereeleventh[] = $total_epected_hour_percent*$workingDaysInaMonth[11];			 
+							
 						$added_expected[] = array_sum($expectedhour_monthone_sphere);
 						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
 						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);
