@@ -68,7 +68,7 @@ $table_staff_projecthrs = 'staff';
 //print_r($result_staff_projecthrs);
 //echo "</pre>";
 $total_epected_hour_percent = $result_staff_projecthrs[0]->ProjectPercent / 100;
-
+echo $total_epected_hour_percent;
 //	$length = count($result);user_id, reports_to,
 //	$length = $length - 1;INNER JOIN $table_emp_sup uu ON ud.user_id = uu.ID 
    $arr_output = array();
