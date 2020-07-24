@@ -143,6 +143,7 @@ foreach($result_emp_sup as $key_teamsemp => $val_teamsemp){
 
 }
 //print_r($result_emp_sup);
+global $expected_hours_pertitle_array;
 $expected_hours_pertitle_array = array( 2 => 67, 3 => 67, 4 => 67, 5 => 67, 6 => 79, 7 => 87, 8 => 87, 9 => 0, 10 => 0, 11 => 67, 12 => 0, 13 => 0, 14 => 79, 15 => 79, 16 => 87, 17 => 87, 18 => 67, 19 => 67, 20 => 67, 21 => 67, 22 => 67);
 global $total_expect_hrs_project;
 
