@@ -43,7 +43,7 @@ details[open] summary {
 
 
     function ecxecPeople($executivearr){
-        echo "<details><summary>Ecxecutive</summary>";
+        echo "<details><summary>Executive</summary>";
         //print_r($executivearr);
         foreach($executivearr as $keyPre => $valPre){
            // $valPre = trim($valPre);
