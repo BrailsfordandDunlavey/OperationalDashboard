@@ -39,7 +39,8 @@ details[open] summary {
      $executiveBradJeff =  array(67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
 
      $executiveWill = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio");
-
+    
+     $executiveLaura = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
 
 
     function ecxecPeople($executivearr){
@@ -75,6 +76,8 @@ details[open] summary {
         ecxecPeople($executiveBradJeff);
     }elseif($current_user_id == "58"){
         ecxecPeople($executiveWill);
+    }elseif($current_user_id == "103"){
+        ecxecPeople($executiveLaura);
     }else{
         foreach($result_team as $key_team => $val_team){
        $team = $val_team->Cluster;
