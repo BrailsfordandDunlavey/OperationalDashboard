@@ -458,7 +458,7 @@ function my_piechart($charpiearr, $litres, $country, $chartdivv){
 <!-- Styles -->
 <style>
 <?php echo "#".$chartdivv; ?>{
-  width: 130%;
+  width: 125%;
   height: 700px;
 }
 
