@@ -11,12 +11,12 @@
 *
 ***************************************************************************/
 //print_r($team_management_teams);
-echo "<table style=\"table-layout: fixed; width: 200%\"><tr>";
+echo "<table style=\"table-layout: fixed; width: 180%\"><tr>";
 foreach($years as $val){	
 	foreach($arr_output[$val] as $dates){
 			$sum_total = 0;
 			$i = 0;		$s = 0;
-			$projectTimeTotalarray = array();
+		 	$projectTimeTotalarray = array();
 			$nonprojectTimeTotalarray = array();
 			$non_project_sumtotal = "";
 			foreach($dates as $hours){
@@ -458,7 +458,7 @@ function my_piechart($charpiearr, $litres, $country, $chartdivv){
 <!-- Styles -->
 <style>
 <?php echo "#".$chartdivv; ?>{
-  width: 90%;
+  width: 100%;
   height: 700px;
 }
 
