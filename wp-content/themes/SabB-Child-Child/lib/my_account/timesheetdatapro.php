@@ -190,8 +190,8 @@ foreach($years as $val){
 
 
 
-		//echo $val;
-		if($iter == 06){
+		//echo $iter;
+		if($iter == 05){
 		
 		
 			///////////HERE/////////////////////
@@ -458,7 +458,7 @@ function my_piechart($charpiearr, $litres, $country, $chartdivv){
 <!-- Styles -->
 <style>
 <?php echo "#".$chartdivv; ?>{
-  width: 100%;
+  width: 130%;
   height: 700px;
 }
 
@@ -496,8 +496,14 @@ chart.data = [
 var series = chart.series.push(new am4charts.PieSeries3D());
 var country = <?php echo "\"$country\""; ?>;
 var litres = <?php echo "\"$litres\""; ?>;
-series.dataFields.value = litres;
-//series.dataFields.category = country;
+series.dataFields.value = 'litres';
+//series.dataFields.category = 'country';
+
+series.ticks.template.disabled = true;
+series.alignLabels = false;
+//series.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+series.labels.template.radius = am4core.percent(-40);
+series.labels.template.fill = am4core.color("white");
 
 // Set up tooltips
 series.tooltip.label.interactionsEnabled = true;
