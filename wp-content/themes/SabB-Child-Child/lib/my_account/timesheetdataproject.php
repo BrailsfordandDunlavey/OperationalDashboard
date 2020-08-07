@@ -28,7 +28,7 @@ $user_info = get_user_by("id", $current_user_id);
 $today = getdate();
 //print_r($today);
 
-$month_today = $today['mon'] - 1;
+$month_today = $today['mon'];
 
 //$month_today;
 
