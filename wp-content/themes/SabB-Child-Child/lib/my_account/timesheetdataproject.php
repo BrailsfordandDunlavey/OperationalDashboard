@@ -25,6 +25,13 @@ if($_GET['current_user']){
 
 $user_info = get_user_by("id", $current_user_id);
 
+$today = getdate();
+//print_r($today);
+
+$month_today = $today['mon'] - 1;
+
+//$month_today;
+
 global $wpdb;
     $table = 'timesheets';
 	$client_table = 'projects';
@@ -33,7 +40,7 @@ global $wpdb;
 	$result = $wpdb->get_results(
 		"SELECT * FROM $table_name
 		    INNER JOIN $client_table_name ON ID = project_id
-			WHERE user_id = $current_user_id AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-07-01')");
+			WHERE user_id = $current_user_id AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-$month_today-01') AND UNIX_TIMESTAMP('2020-$month_today-01')");
 
 	$array = json_decode(json_encode($result), true);
 
@@ -45,7 +52,7 @@ global $wpdb;
 					OR project_id LIKE '0001'
 					OR project_id LIKE 'Sick'
 					OR project_id LIKE '0001MK'
-					OR project_id LIKE 'BEREAV') AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-06-01') AND UNIX_TIMESTAMP('2020-07-01')");
+					OR project_id LIKE 'BEREAV') AND timesheet_date BETWEEN UNIX_TIMESTAMP('2019-$month_today-01') AND UNIX_TIMESTAMP('2020-$month_today-01')");
 			
 	$array_nonprojects = json_decode(json_encode($result_nonproject), true);
 		
@@ -335,7 +342,7 @@ foreach($years as $val){
 			$difff = rand(150, 170);
 			//echo $month;
 			//echo $third_m;
-			if($month == 05){
+			if($month == $month_today - 1){
 				//break;  
 				//print_r($charpiearr);
 				$date_nonprojects_months = $arr_output_nonprojects[$val][$month][0]['timesheet_date'];
@@ -366,7 +373,7 @@ function my_piechartt($charpiearr, $year){
 <!-- Styles -->
 <style>
 #chartdivvv {
-  width: 200%;
+  width: 180%;
   height: 500px;
 }
 

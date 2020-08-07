@@ -3513,10 +3513,14 @@ a.go_back_btn:hover {
 }
 
 #right-sidebar {
-    float: right;
+    /*float: right;*/
     width: 29%;
     overflow: hidden;
-    list-style-type: none
+    list-style-type: none;
+    padding-left: 70px;
+
+
+
 }
 
 .my_box3_breadcrumb {
@@ -4308,7 +4312,7 @@ only screen and (min-resolution: 2dppx) and (max-width: 1024px) {
     Maximal Width
    =============== */
     .wrapper {
-        width: 1800px;
+        width: 1250px;
         /* 1140px - 10% for margins */
         margin: 0 auto;
     }
