@@ -128,7 +128,7 @@ $month_input = explode("/", $_POST['date']);
 }
 
 $display_name = $user_info->display_name;
-echo "You are currently viewing $display_name dashbord";
+echo "You are currently viewing $display_name dashboard";
 
 // best stored as array, so you can add more than one
 global $holidays;
@@ -454,8 +454,8 @@ var distanceSeriess = chart.series.push(new am4charts.ColumnSeries());
 distanceSeriess.dataFields.valueY = "value2";
 distanceSeriess.dataFields.dateX = "date";
 distanceSeriess.yAxis = distanceAxis;
-distanceSeriess.tooltipText = "Non Project Hrs: {valueY} ";
-distanceSeriess.name = "Non Project Hrs";
+distanceSeriess.tooltipText = "Non-project Hrs: {valueY} ";
+distanceSeriess.name = "Non-project Hrs";
 distanceSeriess.columns.template.fillOpacity = 0.7;
 distanceSeriess.columns.template.propertyFields.strokeDasharray = "dashLength";
 distanceSeriess.columns.template.propertyFields.fillOpacity = "alpha";
