@@ -233,7 +233,7 @@
         <div class="home_blur">
         <div class="main_area_homepg">
        		<div class="main_tagLine"><?php echo "<b>Welcome to the B&D Operational Dashboard!</b><br/>"; ?>
-			<div class ="sub_tagLine"><?php echo "<b><i><u>Beta</u></i></b>";?></div>
+			<div class ="sub_tagLine"><?php echo "<b><i><u>Upgrade 1.0</u></i></b>";?></div>
 			<?php echo "Better is <i>Better</i><br/><br/><br/><br/><br/><br/>"; ?></div>
             <div class="sub_tagLine"><div class="wrps"></div></div>
        	 	

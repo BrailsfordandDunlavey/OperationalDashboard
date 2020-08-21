@@ -239,6 +239,28 @@ foreach($years as $val){
 			$exp_month = explode('-', date('Y-m-d' , $dates[0]['timesheet_date']));
 			$month = $exp_month[1];	
 
+			$workdays = array();
+			$type = CAL_GREGORIAN;
+			//$month = date('n'); // Month ID, 1 through to 12.
+			$year = $val; // Year in 4 digit 2009 format.
+			$day_count = cal_days_in_month($type, $month, $year); // Get the amount of days
+			//echo $month;
+			//loop through all days
+			for ($i = 1; $i <= $day_count; $i++) {
+			
+					$date = $year.'/'.$month.'/'.$i; //format date
+					$get_name = date('l', strtotime($date)); //get week day
+					$day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
+			
+					//if not a weekend add day to array
+					if($day_name != 'Sun' && $day_name != 'Sat'){
+						$workdays[] = $i;
+					}
+			
+			}			
+			// look at items in the array uncomment the next line
+			$count_daysworking[] = count($workdays)*8;
+
 			$projenArrNames = array();
 			foreach($dates as $porjectnames){
 				//echo $porjectnames['project_name'];		
@@ -302,37 +324,13 @@ foreach($years as $val){
 			$monthName = $val.'-'.$month.'-01'; 
 			$identifiernonprojectarrayPieChart  = array($country => "Average");
 			//echo $total_epected_hour_percent;
-			$expectedhour_monthone_sphere[] = $total_epected_hour_percent*$workingDaysInaMonth[0];
-						$expectedhour_monthone_sphereone[] = $total_epected_hour_percent*$workingDaysInaMonth[1];
-						$expectedhour_monthone_spheretwo[] = $total_epected_hour_percent*$workingDaysInaMonth[2];
-						$expectedhour_monthone_spherethree[] = $total_epected_hour_percent*$workingDaysInaMonth[3];
-						$expectedhour_monthone_sphereforth[] = $total_epected_hour_percent*$workingDaysInaMonth[4];
-						$expectedhour_monthone_spherefifth[] = $total_epected_hour_percent*$workingDaysInaMonth[5];
-						$expectedhour_monthone_spheresith[] = $total_epected_hour_percent*$workingDaysInaMonth[6];
-						$expectedhour_monthone_sphereseventh[] = $total_epected_hour_percent*$workingDaysInaMonth[7];
-						$expectedhour_monthone_sphereeighth[] = $total_epected_hour_percent*$workingDaysInaMonth[8];
-						$expectedhour_monthone_spherenineth[] = $total_epected_hour_percent*$workingDaysInaMonth[9];
-						$expectedhour_monthone_spheretenth[] = $total_epected_hour_percent*$workingDaysInaMonth[10];
-						$expectedhour_monthone_sphereeleventh[] = $total_epected_hour_percent*$workingDaysInaMonth[11];			 
-							
-						$added_expected[] = array_sum($expectedhour_monthone_sphere);
-						$added_expectedone[] = array_sum($expectedhour_monthone_sphereone);
-						$added_expectedtwo[] = array_sum($expectedhour_monthone_spheretwo);
-						$added_expectedthree[] = array_sum($expectedhour_monthone_spherethree);
-						$added_expectedfourth[] = array_sum($expectedhour_monthone_sphereforth);
-						$added_expectedfifth[] = array_sum($expectedhour_monthone_spherefifth);
-						$added_expectedsixth[] = array_sum($expectedhour_monthone_spheresith);
-						$added_expectedseventh[] = array_sum($expectedhour_monthone_sphereseventh);
-						$added_expectedeighth[] = array_sum($expectedhour_monthone_sphereeighth);
-						$added_expectednineth[] = array_sum($expectedhour_monthone_spherenineth);
-						$added_expectedtenth[] = array_sum($expectedhour_monthone_spheretenth);
-						$added_expectedeleventh[] = array_sum($expectedhour_monthone_sphereeleventh);
-						//$added_expectedeltwelveth[] = array_sum($expectedhour_monthone_sphereeltwelveth);$added_expectedeltwelveth
-						$total_expect_hrs_project = array($added_expected, $added_expectedone, $added_expectedtwo, $added_expectedthree, $added_expectedfourth, $added_expectedfifth, $added_expectedsixth, $added_expectedseventh, $added_expectedeighth, $added_expectednineth, $added_expectedtenth, $added_expectedeleventh);
+
+			$expectedhour_monthone_sphere[$s] = $total_epected_hour_percent*$count_daysworking[$s];
+
 			echo "<pre>";
 			//print_r($total_expect_hrs_project);
 			echo "</pre>";
-			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $workingDaysInaMonth[$s], "value4" => $total_expect_hrs_project[$s][0]); 
+			$nonprojectTimeTotalarrayPieChart = array($country => $monthName, "value1" => $sum_total, "value2" => $non_project_sumtotal, "value3" => $count_daysworking[$s], "value4" => $expectedhour_monthone_sphere[$s]); 
 			//$nonprojectTimeTotalarrayPieChartend = array("value1" => 250, "value2" => 250, "value3" => 250, "value4" => 250);$mergedprojectTimeTotalarrayPieChart_encode 
 			$mergednonprojectTimeTotalarrayPieChart =  $nonprojectTimeTotalarrayPieChart;
 			$mergednonprojectTimeTotalarrayPieChart_encode .= json_encode($mergednonprojectTimeTotalarrayPieChart).",";			
