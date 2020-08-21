@@ -31,7 +31,27 @@ details[open] summary {
     $current_user_id = get_current_user_id();
     $author_obj = get_user_by('id', $current_user_id);
     //echo $current_user_id;
-    //global $wpdb;
+    //global $wpdb;WHERE display_name LIKE '%$executivearr[0]%'
+        $executiveLaura = array();
+                  $table_namepre = 'users';
+                  $table_name_namepre = $wpdb->prefix . $table_namepre;	
+                  $result_namepre = $wpdb->get_results(
+                     "SELECT * FROM $table_name_namepre");   
+                 $nameIDpre = $result_namepre[0]->ID;
+                 //print_r(count($result_namepre));
+                 //echo $nameIDpre;
+                 
+                 for($i = 0; $i < count($result_namepre); $i++){
+                    // echo "<br />";
+                   // echo $result_namepre[$i]->ID;
+                  //  echo $result_namepre[$i]->display_name;
+                  if($result_namepre[$i]->display_name == 'admin' || $result_namepre[$i]->display_name == 'bbannister'){
+                    
+                  }else{
+                      $executiveLaura[$result_namepre[$i]->ID] = $result_namepre[$i]->display_name;
+                  }
+                    
+                 }/**/
 
      $executivePaul = array(39 => "Brad Noyes", 40 => "Jeff Turner", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
      $executiveChris = array(58 => "Will Mangrum", 52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio");
@@ -40,7 +60,7 @@ details[open] summary {
 
      $executiveWill = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio");
     
-     $executiveLaura = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
+     //$executiveLaura = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
 
 
     function ecxecPeople($executivearr){
@@ -48,12 +68,7 @@ details[open] summary {
         //print_r($executivearr);
         foreach($executivearr as $keyPre => $valPre){
            // $valPre = trim($valPre);
-           // $table_namepre = 'users';
-               // $table_name_namepre = $wpdb->prefix . $table_namepre;	
-                //$result_namepre = $wpdb->get_results(
-                //    "SELECT * FROM $table_name_namepre		    
-                //        WHERE display_name LIKE '%$executivearr[0]%'");   
-                // $nameIDpre = $result_namepre[0]->ID;
+           // 
                  echo "<p><a href=/wp-opdash/dashboard/?current_user=$keyPre>$valPre</a></p>";
         }        
         echo "</details>";
@@ -104,7 +119,7 @@ details[open] summary {
 
    
                  $nameID = $result_name[0]->ID;
-                 echo "<p><a href=/dashboard/?current_user=$nameID>$staff_name</a></p>";
+                 echo "<p><a href=/wp-opdash/dashboard/?current_user=$nameID>$staff_name</a></p>";
             }             
             //echo "</div>";
             echo "</details>";
