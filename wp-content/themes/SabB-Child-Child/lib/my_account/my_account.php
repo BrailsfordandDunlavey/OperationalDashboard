@@ -74,6 +74,7 @@ function ProjectTheme_my_account_area_main_function()
 		<div class="my_box3"><div class ="box_content">	
 	
 	<?php
+	$today = time();
 	$notices = 0;
 	//notices for all
 	$my_vendor_payables = $wpdb->get_results($wpdb->prepare("select vendor_payable_id from ".$wpdb->prefix."vendor_payables 
