@@ -48,7 +48,7 @@ details[open] summary {
                   if($result_namepre[$i]->display_name == 'admin' || $result_namepre[$i]->display_name == 'bbannister'){
                     
                   }else{
-                      $executiveLaura[$result_namepre[$i]->ID] = $result_namepre[$i]->display_name;
+                    //  $executiveLaura[$result_namepre[$i]->ID] = $result_namepre[$i]->display_name;
                   }
                     
                  }/**/
@@ -60,7 +60,7 @@ details[open] summary {
 
      $executiveWill = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio");
     
-     //$executiveLaura = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
+     $executiveLaura = array(52 => "Bill Mykins", 53 => "Sanath Kalidas", 180 => "Mark Newton", 112 => "Deisy Brangman", 215 => "Jeff Bonvechio", 67 => "Joe Winters", 77 => "Carrie Rollman", 54 => "Katie Karp", 70 => "Ryan Jensen", 42 => "Kim Martin", 48 => "Matt Bohannon", 218 => "Chet Roach");
 
 
     function ecxecPeople($executivearr){
