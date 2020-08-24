@@ -9,6 +9,19 @@ function billyB_my_team_time()
 	$useradd = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."useradd where user_id=%d",$uid));
 	$team = $useradd[0]->team;
 	
+	//run once
+	/*
+	$results = $wpdb->get_results("select user_id from ".$wpdb->prefix."useradd where status=1 
+		and user_id not in (select user_id from ".$wpdb->prefix."timesheets where timesheet_date=1599177600)");
+	foreach($results as $r)
+	{
+		$wpdb->query("insert into ".$wpdb->prefix."timesheets 
+		(user_id,submitted_date,timesheet_date,project_id,task_id,timesheet_hours,timesheet_notes,timesheet_status,origination)
+		values (".$r->user_id.",1599177600,1599177600,'Holiday',0,8,'Labor Day',1,'BillyB Query')");
+	}
+	*/
+	//
+	
 	$timeoff_array = array('Vacation','Sick','Float','BEREAV','JURY','MATPAT','Holiday');
 	
 	if(isset($_POST['save-info']))
@@ -117,7 +130,7 @@ function billyB_my_team_time()
 					inner join ".$wpdb->prefix."users on ".$wpdb->prefix."useradd.user_id=".$wpdb->prefix."users.ID 
 					where (".$wpdb->prefix."useradd.reports_to=%d and ".$wpdb->prefix."useradd.status=1)
 					order by ".$wpdb->prefix."users.display_name asc",$uid);
-				if($uid == 103 or $uid==245 or $uid==65)//laura cosenzo and fola gbadamosi
+				if($uid == 103 or $uid==245 or $uid==94)//laura cosenzo and fola gbadamosi
 				{
 					$reporttoquery = $wpdb->prepare("select user_id,display_name,reports_to from ".$wpdb->prefix."useradd 
 						inner join ".$wpdb->prefix."users on ".$wpdb->prefix."useradd.user_id=".$wpdb->prefix."users.ID 
@@ -188,7 +201,7 @@ function billyB_my_team_time()
 			
 			if(!empty($timesheetresults))
 			{
-				if($uid != 103 and $uid !=245 and $uid!=65 and $reportsto==$current_user->ID)
+				if($uid != 103 and $uid !=245 and $uid!=94 and $reportsto==$current_user->ID)
 				{
 					echo '<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>';?>
 						<a onclick="javascript:checkAll('team-time',true);" href="javascript:void();">check all</a> / 
@@ -200,7 +213,9 @@ function billyB_my_team_time()
 					<th><b><u>Project</u></b></th>
 					<th><u><b>Hours</b></u></th>
 					<th><b><u>Notes</u></b></th>
-					<th><b><u>'.((($uid != 103 and $uid !=245 and $uid!=65 and $uid==$reportsto) or ($uid==103 and $reportsto==103))? "Approve" : "").'</u></b></th></tr>';
+					<th><b><u>'.((($uid != 103 and $uid !=245 and $uid!=94 and $uid==$reportsto) 
+						or ($uid==103 and $reportsto==103) 
+						or ($uid==94 and $reportsto==94))? "Approve" : "").'</u></b></th></tr>';
 				$t = -1;
 				$total = 0;
 				$total_total = 0;
@@ -234,7 +249,7 @@ function billyB_my_team_time()
 					echo '<th>'.$time->timesheet_notes.'</th>';
 					echo '<input readonly type="hidden" name="record['.$time->timesheet_id.'][id]" value="'.$time->timesheet_id.'" />';
 					echo '<th>';
-					if(($uid != 103 and $uid!=245 and $uid!=65 and $reportsto==$current_user->ID) or ($uid==103 and $reportsto==103))
+					if(($uid != 103 and $uid!=245 and $uid!=94 and $reportsto==$current_user->ID) or ($uid==103 and $reportsto==103)or ($uid==94 and $reportsto==94))
 					{
 						echo '<input type="checkbox" name="record['.$time->timesheet_id.'][box]" ';
 						if($time->timesheet_status>0){echo 'checked="checked" /></th>';}else{echo '/></th>';}
