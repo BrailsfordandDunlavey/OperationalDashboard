@@ -816,7 +816,7 @@ a.feed_prj:visited {
     text-align: left;
     margin-bottom: 10px;
     display: inline-block;
-    position: relative;
+    /*position: relative;*/
     margin: auto;
     text-align: left;
     padding-top: 15px;
