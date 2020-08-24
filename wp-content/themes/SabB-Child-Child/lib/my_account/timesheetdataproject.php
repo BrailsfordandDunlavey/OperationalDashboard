@@ -77,7 +77,7 @@ $table_staff_projecthrs = 'staff';
 $total_epected_hour_percent = $result_staff_projecthrs[0]->ProjectPercent / 100;
 //echo $total_epected_hour_percent;
 if($total_epected_hour_percent == 0){
-	$total_epected_hour_percent = 87/100;
+	$total_epected_hour_percent = 67/100;
 }
 //echo $total_epected_hour_percent;
 //	$length = count($result);user_id, reports_to,
