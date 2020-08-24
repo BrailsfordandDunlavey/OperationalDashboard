@@ -2071,7 +2071,8 @@ a:hover {
 
 .box_content {
     padding: 10px;
-    display: inline-block
+    display: inline-block;
+    width: 170%
 }
 
 .image-gallery {
