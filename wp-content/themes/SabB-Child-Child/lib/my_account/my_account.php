@@ -15,7 +15,7 @@ function ProjectTheme_my_account_area_main_function()
 	
 	if(isset($_POST['change_user'])){$uid = $_POST['select_user'];}
 
-	$today = time();
+	
 	
 	//Cron Job management
 	$run_crons = array();
