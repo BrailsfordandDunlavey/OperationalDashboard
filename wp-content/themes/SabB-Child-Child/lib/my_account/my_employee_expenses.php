@@ -1,6 +1,6 @@
 <?php
 function billyB_my_employee_expenses()
-{
+{ 
 if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/wp-login.php"); exit; }
 
 	global $current_user,$wpdb;
