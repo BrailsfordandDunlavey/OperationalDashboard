@@ -5,7 +5,7 @@ if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/wp-login.php");
 	global $current_user,$wpdb,$wp_query;
 	get_currentuserinfo();
 	$uid = $current_user->ID;
- 	$project = $_GET['ID'];
+ 	$project = $_GET['ID']; 
 	
 	$project_query = $wpdb->prepare("select client_name,project_name from ".$wpdb->prefix."projects 
 		inner join ".$wpdb->prefix."clients on ".$wpdb->prefix."projects.client_id=".$wpdb->prefix."clients.client_id 

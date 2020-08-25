@@ -2,7 +2,7 @@
 function billyB_all_projects()
 {
 	if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/wp-login.php"); exit; }
-
+ 
 	global $current_user,$wpdb,$wp_query;
 	get_currentuserinfo();
 	$uid = $current_user->ID;
