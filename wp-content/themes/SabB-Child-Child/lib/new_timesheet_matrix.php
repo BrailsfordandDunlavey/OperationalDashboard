@@ -142,7 +142,7 @@ function billyB_new_timesheet_matrix()
 				<li><h3><?php echo "Time Period Start:";?></h3>
 				<p><select class="do_input_new" name="time_period">
 				<?php
-					$change_array = array(11,60,74,66,104,221,235);//allow users to change the view to someone else
+					$change_array = array(11,60,74,66,104,221,235,94);//allow users to change the view to someone else
 					if(isset($_POST['update-uid']))
 					{
 						$timeperiod1 = trim($_POST['time_period']);

@@ -10,7 +10,7 @@ function billyb_employees_report()
 	$rights_results = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."useradd where user_id=%d",$uid));
 	$allowed_array = array('Human Resources','Finance','Executive');
 	if($uid!=103)
-	{ 
+	{
 		if(!in_array($rights_results[0]->team,$allowed_array)){wp_redirect(get_bloginfo('siteurl')."/dashboard");}
 	}
 

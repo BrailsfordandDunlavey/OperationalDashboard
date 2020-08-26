@@ -79,7 +79,7 @@ function billyB_new_timesheet()
 		</div></div></div>
 
 		<?php
-		$records = array();
+		wp_redirect(get_bloginfo('siteurl')."/new-timesheet/"); exit;
 	}	
 	?>
 	<script type="text/javascript">

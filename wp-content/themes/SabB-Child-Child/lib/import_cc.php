@@ -46,7 +46,7 @@ function billyB_import_cc()
 				wp_mail($to,$subject,$message,$headers);
 			}
 		}
-		$to = array('mleizear@programmanagers.com','npereira@programmanagers.com','pkroeger@programmanagers.com','bbannister@programmanagers.com');
+		$to = array('mleizear@bdconnect.com','npereira@bdconnect.com','bsoorani@bdconnect.com','bbannister@bdconnect.com');
 		$headers = array('Content-Type: text/html; charset=UTF-8');
 		$subject = "B&D Visa statements have been uploaded to OpDash";
 		$message = 'Subject line speaks for itself';

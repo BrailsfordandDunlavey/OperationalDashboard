@@ -29,7 +29,7 @@ function billyB_new_employee_expense()
 		{
 			$useradd_results = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."useradd where user_id=%d",$uid));
 			$employee_gp_id = $useradd_results[0]->gp_id;
-		} 
+		}
 		
 		?>
 		<div id="content">

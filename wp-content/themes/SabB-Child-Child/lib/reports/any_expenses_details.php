@@ -3,7 +3,7 @@ function billyB_any_expenses_details()
 { 
 
 	if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl').'/wp-login.php?redirect_to="any-expenses-report"'); exit; }
- 
+
 	global $current_user,$wpdb,$wp_query;
 	get_currentuserinfo();
 	$uid = $current_user->ID;

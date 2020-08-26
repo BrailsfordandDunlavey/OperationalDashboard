@@ -5,7 +5,7 @@ function billyB_expense_management_unprocessed()
 	
 	function sitemile_filter_ttl($title){return "Expense Approval";}
 	add_filter( 'wp_title', 'sitemile_filter_ttl', 10, 3 );
-	 
+	
 	global $current_user,$wpdb,$wp_query;
 	get_currentuserinfo();
 	$uid = $current_user->ID;

@@ -8,7 +8,7 @@ function billyB_my_team_time()
 	$uid = $current_user->ID;
 	$useradd = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."useradd where user_id=%d",$uid));
 	$team = $useradd[0]->team;
-	  
+	
 	//run once
 	/*
 	$results = $wpdb->get_results("select user_id from ".$wpdb->prefix."useradd where status=1 

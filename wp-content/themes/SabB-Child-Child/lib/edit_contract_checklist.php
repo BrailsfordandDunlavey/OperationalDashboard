@@ -291,15 +291,15 @@ if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/wp-login.php");
 		$changes_array = array();
 		if($original_status > 0)
 		{
-			if($fee_type!=$original_fee_type){array_push($changes_array,array("Fee Type",$original_fee_type,$fee_type));}
-			if($initiation_document!=$original_initiation_document){array_push($changes_array,array("Initiation Document",$original_initiation_document,$initiation_document));}
-			if($document_number!=$original_document_number){array_push($changes_array,array("Document Number",$original_document_number,$document_number));}
-			if($estimated_start!=$original_estimated_start){array_push($changes_array,array("Estimated Start",date('m-d-Y',$original_estimated_start),date('m-d-Y',$estimated_start)));}
-			if($project_type!=$original_project_type){array_push($changes_array,array("Project Type",$original_project_type,$project_type));}
+			//if($fee_type!=$original_fee_type){array_push($changes_array,array("Fee Type",$original_fee_type,$fee_type));}
+			//if($initiation_document!=$original_initiation_document){array_push($changes_array,array("Initiation Document",$original_initiation_document,$initiation_document));}
+			//if($document_number!=$original_document_number){array_push($changes_array,array("Document Number",$original_document_number,$document_number));}
+			//if($estimated_start!=$original_estimated_start){array_push($changes_array,array("Estimated Start",date('m-d-Y',$original_estimated_start),date('m-d-Y',$estimated_start)));}
+			//if($project_type!=$original_project_type){array_push($changes_array,array("Project Type",$original_project_type,$project_type));}
 			if($fee_amount!=$original_fee_amount){array_push($changes_array,array("Fee Amount","$".number_format($original_fee_amount,2),"$".number_format($fee_amount,2)));}
 			if($sub_fee!=$original_sub_fee){array_push($changes_array,array("Sub Fee","$".number_format($original_sub_fee,2),"$".number_format($sub_fee,2)));}
 			if($expense_amount!=$original_expense_amount){array_push($changes_array,array("Expense Amount","$".number_format($original_expense_amount,2),"$".number_format($expense_amount,2)));}
-			if($expense_type!=$original_expense_type){array_push($changes_array,array("Expense Type",$original_expense_type,$expense_type));}
+			//if($expense_type!=$original_expense_type){array_push($changes_array,array("Expense Type",$original_expense_type,$expense_type));}
 		}
 		if(!empty($changes_array))//add per diem and receipts required filter to the array
 		{
