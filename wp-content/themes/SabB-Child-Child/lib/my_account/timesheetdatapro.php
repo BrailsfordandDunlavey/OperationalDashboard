@@ -10,13 +10,14 @@
 *	since v1.2.5.3
 *
 ***************************************************************************/
-//print_r($team_management_teams);
-echo "<table style=\"table-layout: fixed; width: 180%\"><tr>";
+//print_r($arr_output['2020']);
+echo "<table cellpadding=\"15\" style=\"table-layout: fixed; width: 180%\"><tr>";
 foreach($years as $val){	
+	
 	foreach($arr_output[$val] as $dates){
 			$sum_total = 0;
 			$i = 0;		$s = 0;
-		 	$projectTimeTotalarray = array();
+			$projectTimeTotalarray = array();
 			$nonprojectTimeTotalarray = array();
 			$non_project_sumtotal = "";
 			foreach($dates as $hours){
@@ -36,9 +37,9 @@ foreach($years as $val){
 				//echo $arr_output_nonprojects[$val][$months][$i]['project_id'];
 				//echo $arr_output_nonprojects[$val][$months][$i]['timesheet_notes'];
 				$i++;
-			echo "<pre>";
+			//echo "<pre>";
 		//print_r($hours);
-		echo "</pre>";
+		//echo "</pre>";
 			
 		}
 		
@@ -189,9 +190,9 @@ foreach($years as $val){
 		
 
 
-
+		//echo "hello Owlrl";
 		//echo $iter;
-		if($iter == 05){
+		if($iter == 5){
 		
 		
 			///////////HERE/////////////////////

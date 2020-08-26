@@ -410,6 +410,7 @@ function ProjectTheme_my_account_area_main_function()
 		if(date('D',$i) != 'Sat' and date('D',$i) != 'Sun'){$last_month_available += 8; $last_month_max += 10;}
 	}
 	echo '<div><h3>Hours Worked</h3></div>';
+	echo $last_month;
 	if($last_month_time < $last_month_available){$lm_font = "blue";}elseif($last_month_time > $last_month_max){$lm_font = "red";}else{$lm_font = "green";}
 	if($two_months_ago_time < $two_months_ago_available){$two_font = "blue";}elseif($two_months_ago_time > $two_months_ago_max){$two_font = "red";}else{$two_font = "green";}
 	if($three_months_ago_time < $three_months_ago_available){$three_font = "blue";}elseif($three_months_ago_time > $three_months_ago_max){$three_font = "red";}else{$three_font = "green";}

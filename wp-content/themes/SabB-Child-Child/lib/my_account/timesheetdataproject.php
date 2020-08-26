@@ -72,7 +72,7 @@ $table_staff_projecthrs = 'staff';
             WHERE Name LIKE '%$user_info->display_name%'");
 
 //echo "<pre>";
-//print_r($result_staff_projecthrs);
+///print_r($result_staff_projecthrs);
 //echo "</pre>";
 $total_epected_hour_percent = $result_staff_projecthrs[0]->ProjectPercent / 100;
 //echo $total_epected_hour_percent;
@@ -135,6 +135,7 @@ global $holidays;
 $holidays = array('2020-01-01', '2020-01-20', '2020-02-17', '2020-05-25', '2020-07-03', '2020-09-07', '2020-11-26', '2020-11-27', '2020-12-24', '2020-12-25', '2020-12-31');
 $workingDaysInaMonth = array();
 //print_r($month_input);
+
 for($et=0; $et<=11; $et++){
 		$months_project_totalhours = $month_input[0] + $et;
 		'0'.$months_project_totalhours;		
@@ -152,13 +153,16 @@ for($et=0; $et<=11; $et++){
 			$curr = $dt->format('D');
 			// for the updated question
 			if (in_array($dt->format('Y-m-d'), $holidays)) {
-				$days--;
+				//$days--;
 			}
 			// substract if Saturday or Sunday
 			if ($curr == 'Sat' || $curr == 'Sun') {
 				$days--;
 			}
-		}		 
+		}	
+		//echo $months_project_totalhours;
+		//echo $days;
+		//echo "<br />";
 		$workingDaysInaMonth[] = $days*8;
 }
 foreach($result_emp_sup as $key_teamsemp => $val_teamsemp){	
@@ -248,8 +252,8 @@ foreach($years as $val){
 			//loop through all days
 			for ($i = 1; $i <= $day_count; $i++) {
 			
-					$date = $year.'/'.$month.'/'.$i; //format date
-					$get_name = date('l', strtotime($date)); //get week day
+					$datee = $year.'/'.$month.'/'.$i; //format date
+					$get_name = date('l', strtotime($datee)); //get week day
 					$day_name = substr($get_name, 0, 3); // Trim day name to 3 chars
 			
 					//if not a weekend add day to array
@@ -360,6 +364,8 @@ foreach($years as $val){
 		
 
 }
+
+//require_once("TestingCodePHP.php");
 
 ?>
 

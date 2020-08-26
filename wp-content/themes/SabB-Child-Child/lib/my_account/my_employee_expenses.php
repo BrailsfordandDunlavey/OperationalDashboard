@@ -23,7 +23,8 @@ if(!is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/wp-login.php");
 		{
 			echo '<table width ="100%"><tr><th><u>Report ID</u></th><th><u>Date</u></th><th><u>Total</u></th><th>&nbsp;</th></tr>';
 			foreach ($expensehistoryresult as $data)
-			{
+			{	
+				
 				$report_id = $data->expense_report_id;
 				$sumresults = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."employee_expenses where expense_report_id=%d",$report_id));
 				if($data->expense_submit_date == 0){$date = "Unsubmitted";}

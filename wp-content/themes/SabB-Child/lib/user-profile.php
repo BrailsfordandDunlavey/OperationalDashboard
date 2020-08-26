@@ -1,186 +1,587 @@
 <?php
 
-	global $wpdb, $current_user;
+	global $wpdb,$wp_rewrite,$wp_query;
+	$username = $wp_query->query_vars['post_author'];
+	$uid = $username;
+	$paged = $wp_query->query_vars['paged'];
+//BillyB add current user
+	global $current_user;
 	get_currentuserinfo();
 	$cid = $current_user->ID;
 	
-	$employee_id = $_GET['ID'];
 	
-	$user_results = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."users where ID=%d",$employee_id));
-	$email = $user_results[0]->user_email;
-	$employee_name = $user_results[0]->display_name;
-	
-	function sitemile_filter_ttl($title){return __("User Profile",'ProjectTheme');}
+	$user = get_userdata($uid);
+	$username = $user->user_login;
+
+	function sitemile_filter_ttl($title){return __("Member Profile",'ProjectTheme');}
 	add_filter( 'wp_title', 'sitemile_filter_ttl', 10, 3 );	
-	$useradd_results = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."useradd where user_id=%d",$employee_id));
-	$position_id = $useradd_results[0]->position;
-	$sphere = $useradd_results[0]->sphere;
-	$office_phone = $useradd_results[0]->office_phone;
-	$cell_phone = $useradd_results[0]->cell_phone;
-	
-	if(isset($_POST['save-info']))
-	{
-		if(!empty($_POST['change_date']))
-		{
-			$date = strtotime($_POST['change_date']);
-			
-			$wpdb->query($wpdb->prepare("update ".$wpdb->prefix."useradd set position=%d 
-				where user_id=%d",$_POST['new_position'],$employee_id));
-			$wpdb->query($wpdb->prepare("insert into ".$wpdb->prefix."employee_changes (user_id,change_type,change_date,changed_by,previous_value,effective_date)
-				values(%d,'position',%d,%d,%d,%d)",$employee_id,time(),$current_user->ID,$_POST['old_position'],$date));
-			$position_id = $_POST['new_position'];
-		}
-	}
-	
-	$position_results = $wpdb->get_results($wpdb->prepare("select position_title from ".$wpdb->prefix."position where ID=%d",$position_id));
-	$position = $position_results[0]->position_title;
-	if($sphere == "Higher Ed")
-	{
-		if($position == "Assistant Project Manager"){$position = "Senior Analyst";}
-		elseif($position == "Project Manager"){$position = "Associate";}
-		elseif($position == "Senior Project Manager"){$postion = "Senior Associate";}
-		elseif($position == "Regional Vice President"){$position = "Director";}
-	}
-	
-	$year = date('Y',time());
-	$assumptions_results = $wpdb->get_results($wpdb->prepare("select * from ".$wpdb->prefix."position_assumptions where position_id=%d and year=%d",$position_id,$year));
-	$planning_rate = $assumptions_results[0]->planning_rate;
-	$implementation_rate = $assumptions_results[0]->implementation_rate;
 	
 get_header();
 ?>
-    <div class="page_heading_me">
-		<div class="page_heading_me_inner"> 
-            <div class="mm_inn"><?php printf(__("User Profile - %s", 'ProjectTheme'), $employee_name); ?>   </div>                            
-        </div>            
-    </div>
+
+
+             
+                <div class="page_heading_me">
+                        <div class="page_heading_me_inner">
+                        	<?php $company = get_user_meta($uid, 'user_companyname', true); ?>
+                            <div class="mm_inn"><?php printf(__("Member Profile - %s", 'ProjectTheme'), $company); ?>   </div>
+                  	            
+                                        
+                        </div>
+                    
+                    </div> 
+<!-- ########## -->
+
 <div id="main_wrapper">
-	<div id="main" class="wrapper">
-		<div id="content">
+		<div id="main" class="wrapper">
+
+
+<div id="content">
+	
     		<div class="my_box3">
             <div class="padd10">
+            
+            	 
             	<div class="box_content">	
-                <div class="user-profile-description">                     
+                    	
+                    	<div>
+					        	<h2><?php echo __('Company Name','ProjectTheme'); ?>: <span style="color:#061f8f;"><?php echo get_user_meta($uid, 'user_companyname', true); ?></span></h2>
+						</div>
+            
+                    
+                        <div class="user-profile-description">
+                        <?php
+                        
+                        $info = get_user_meta($uid, 'user_description', true);
+                        if(empty($info)) _e("",'ProjectTheme');
+                        else echo $info;
+                        
+                        ?>                        
+                
                 	<p>
 						<ul class="other-dets_m">
-							<?php
-							echo '<li><h3>Email:</h3><p><a href="mailto:'.$email.'">'.$email.'</a></p></li>';
-							echo '<li><h3>Office Phone:</h3><p>'.($office_phone != 0 ? '('.substr($office_phone, 0, 3).') '.substr($office_phone, 3, 3).'-'.substr($office_phone,6) 
-								: 'Not Listed').'</p></li>';
-							echo '<li><h3>Cell Phone:</h3><p>'.($cell_phone != 0 ? '('.substr($cell_phone, 0, 3).') '.substr($cell_phone, 3, 3).'-'.substr($cell_phone,6) 
-								: 'Not Listed').'</p></li>';
-							echo '<li>&nbsp;</li>';
-							echo '<li><h3>Sphere:</h3><p>'.$sphere.'</p></li>';
-							echo '<li><h3>Position:</h3><p>'.$position.'</p></li>';
-							echo '<li><h3>Planning Rate:</h3><p>$'.number_format($planning_rate,2).'</p></li>';
-							echo '<li><h3>Implementation Rate:</h3><p>$'.number_format($implementation_rate,2).'</p></li>';
-							?>
-			             </ul>
-					</p>
-                </div>
-                </div>
-            </div>
-            </div>
-		</div>
-		<?php
-		if($current_user->ID==11)
-		{
-			$employee_details = $wpdb->get_results($wpdb->prepare("select change_type,change_date,display_name,previous_value,effective_date
-				from ".$wpdb->prefix."employee_changes
-				left join ".$wpdb->prefix."users on ".$wpdb->prefix."employee_changes.changed_by=".$wpdb->prefix."users.ID
-				where ".$wpdb->prefix."employee_changes.user_id=%d
-				order by change_date",$employee_id));
-				
-			$positions = $wpdb->get_results("select * from ".$wpdb->prefix."position order by rank");
-			
-			?>
-			<form method="post" name="update_user" enctype="multipart/form-data" >
-			<div id="content">
-				<div class="my_box3">
-				<div class="padd10">
-            	<div class="box_content">
-				<div class="user-profile-description">
-				<p>
-				<ul class="other-dets_m">
-				<?php
-				foreach($employee_details as $detail)
-				{
-					if($detail->change_type=="reports_to"){$previous_value = $detail->display_name;}
-					elseif($detail->change_type=="wage"){$pevious_value = '$'.number_format($detail->previous_value,2);}
-					elseif($detail->change_type=="position")
-					{
-						foreach($positions as $p)
-						{
-							if($p->ID==$detail->previous_value){$previous_value = $p->position_title;}
-						}
-					}
-					else{$previous_value = $detail->previous_value;}
-					if($detail->change_type == "position"){$date = $detail->effective_date;}else{$date = $detail->change_date;}
-					echo '<li><h3>'.$detail->change_type.'</h3><p>Was: '.$previous_value.' on '.date('m-d-Y',$date).'</p></li>';
-				}
-				?>
-				<li>&nbsp;</li>
-				<input type="hidden" name="old_position" value="<?php echo $position_id;?>" />
-				<li><h3>New Position:</h3><p><select name="new_position" class="do_input_new">
-					<p>
-					<?php
-					foreach($positions as $position)
-					{
-						echo '<option value="'.$position->ID.'" '.($position->ID==$position_id ? 'selected="selected"' : '').'>'.$position->position_title.'</option>';
-					}
-					?>
-					</select>
-					</p>
-				</li>
-				<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-					<link rel="stylesheet" media="all" type="text/css" href="<?php echo get_bloginfo('template_url'); ?>/css/ui_thing.css" />
-					<script type="text/javascript" language="javascript" src="<?php echo get_bloginfo('template_url'); ?>/js/timepicker.js"></script>
-					<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-					<link rel="stylesheet" href="/resources/demos/style.css">
-					<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-					<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-				<li><h3>Effective Date:</h3><p><input type="text" id="start" class="do_input_new full_wdth_me" name="change_date"/></p></li>
-						<script>
-						<?php $dd = 180; ?>
 
-						var myDate=new Date();
-						myDate.setDate(myDate.getDate()+<?php echo $dd; ?>);
-	
-						$(document).ready(function() {
-							$('#start').datepicker({
-								showSecond: false,
-								timeFormat: 'hh:mm:ss',
-								currentText: '<?php _e('Now','ProjectTheme'); ?>',
-								closeText: '<?php _e('Done','ProjectTheme'); ?>',
-								ampm: false,
-								dateFormat: 'mm/dd/yy',
-								timeFormat: 'hh:mm tt',
-								timeSuffix: '',
-								maxDateTime: myDate,
-								timeOnlyTitle: '<?php _e('Choose Time','ProjectTheme'); ?>',
-								timeText: '<?php _e('Time','ProjectTheme'); ?>',
-								hourText: '<?php _e('Hour','ProjectTheme'); ?>',
-								minuteText: '<?php _e('Minute','ProjectTheme'); ?>',
-								secondText: '<?php _e('Second','ProjectTheme'); ?>',
-								timezoneText: '<?php _e('Time Zone','ProjectTheme'); ?>'
-							});
-						});
-						</script>
-				<li>&nbsp;</li>
-				<li><h3></h3><p><input type="submit" name="save-info" value="save" class="my-buttons" /></p></li>
-				</ul>
-				</p>
-				</div>
-				</div>
-				</div>
-				</div>
-			</div>
-			</form>
-			<?php
-		}
-		?>
-	</div>
-</div> 
+
+			                    <?php
+							$arrms = ProjectTheme_get_user_fields_values($uid);
+							
+							if(count($arrms) > 0) 
+								for($i=0;$i<count($arrms);$i++)
+								{
+							
+							?>
+			                <li>
+								<h3><?php echo $arrms[$i]['field_name'];?>:</h3>
+			               	 	<p><?php echo $arrms[$i]['field_value'];?></p>
+			                </li>
+
+
+							<?php } ?>
+							<li>
+					        	<!--changed user display to join time stamp -->
+								<h3><?php echo __('Date Joined','ProjectTheme'); ?>:</h3>
+					        	<p><?php 
+									$user_info = get_userdata($uid);
+									$user_reg = ($user_info->user_registered);
+									
+									echo $user_reg;
+									?></p>
+							</li>
+							 <li>
+					        	<h3><?php echo __('City','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_city', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('State','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_location', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('Zip Code','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_zip', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('Phone','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_telephone', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('Website','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_website', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('Company Type','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_companytype', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('Disadvantaged','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_disadvantaged', true); ?></p>
+							</li>
+							<!-- <li>
+					        	<h3><?php echo __('Date Founded','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_datefounded', true); ?></p>
+							</li> -->
+							<li>
+							<h3><?php
+			                        
+			                        $info = get_user_meta($uid, 'user_datefounded', true);
+			                        if(empty($info)) _e("",'ProjectTheme');
+			                        else echo 'Date Founded:';
+			                        
+			                        ?></h3>
+						        <p><?php
+			                        
+			                        $info = get_user_meta($uid, 'user_datefounded', true);
+			                        if(empty($info)) _e("",'ProjectTheme');
+			                        else echo $info;
+			                        
+			                        ?></p>
+			                </li>
+			                <li>
+							<h3><?php
+			                        
+			                        $info = get_user_meta($uid, 'user_fiscalend', true);
+			                        if(empty($info)) _e("",'ProjectTheme');
+			                        else echo 'Fiscal End:';
+			                        
+			                        ?></h3>
+						        <p><?php
+			                        
+			                        $info = get_user_meta($uid, 'user_fiscalend', true);
+			                        if(empty($info)) _e("",'ProjectTheme');
+			                        else echo $info;
+			                        
+			                        ?></p>
+			                </li>
+							<!-- <li>
+					        	<h3><?php echo __('NAICS Sector','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_naicssector', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('NAICS Codes','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_naicscodes', true); ?></p>
+							</li> -->
+							<li>
+					        	<h3><?php echo __('Markets Servicing','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_marketindustries', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('States Registered to do Business in','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_statesregistered', true); ?></p>
+							</li>
+							<li>
+					        	<h3><?php echo __('States Servicing','ProjectTheme'); ?>:</h3>
+					        	<p><?php echo get_user_meta($uid, 'user_statesservicing', true); ?></p>
+							</li>
+			                
+			                </ul>
+
+                </p>
+                
+                        </div>
+                        
+                          <div class="user-profile-avatar"><img class="imgImg" width="100" height="100" src="<?php echo ProjectTheme_get_avatar($uid,100,100); ?>" />
+
+						
+                          
+                          <?php
+						  	
+							if(ProjectTheme_is_user_provider($uid)):
+						  
+						  ?>
+                          
+                          <!-- <div class="price-per-hr"><?php 
+						  $pr = get_user_meta($uid, 'per_hour', true);
+						  if(empty($pr)) $pr = __('not defined','ProjectTheme');
+						  else $pr = ProjectTheme_get_show_price($pr);
+						  
+						  echo sprintf(__('Hourly Rate: %s','ProjectTheme'), $pr); ?>
+                          </div> -->
+                          
+                          <?php endif; ?>
+                          
+
+                          
+                          
+                          
+                   	 	</div>
+                    
+                </div>
+                
+            </div>
+            </div>
+                
+              <?php
+			  //BillyB add if statement to hide posted requests unless user viewing is the owner of the profile
+			  	if($cid == $uid):
+				if(ProjectTheme_is_user_business($uid)):
+			  ?>  
+                <div class="clear10"></div>
+			
+            	<div class="box_title"><?php _e("Member's Latest Posted Requests",'ProjectTheme'); ?></div>
+            
+        
 <?php
+
+$closed = array(
+							'key' => 'closed',
+							'value' => '0',
+							'compare' => '='
+						);	
+
+	
+	$nrpostsPage = 8;
+	$args = array( 'author' => $uid , 'meta_query' => array($closed)  ,'posts_per_page' => $nrpostsPage, 'paged' => $paged, 'post_type' => 'project', 'order' => "DESC" , 'orderby'=>"date");
+	$the_query = new WP_Query( $args );
+		
+		// The Loop
+		
+		if($the_query->have_posts()):
+		while ( $the_query->have_posts() ) : $the_query->the_post();
+			
+			projectTheme_get_post();
+	
+			
+		endwhile;
+	
+	if(function_exists('wp_pagenavi'))
+	wp_pagenavi( array( 'query' => $the_query ) );
+	
+          ?>
+          
+          <?php                                
+     	else:
+		
+		echo __('No Requests posted.','ProjectTheme');
+		
+		endif;
+		// Reset Post Data
+		wp_reset_postdata();
+
+            
+					 
+		?>
+ 
+<?php endif;
+
+endif;
+
+	if(ProjectTheme_is_user_provider($uid)):
+
+
+
+?>
+				<!--BillyB remove Portfolio
+				<div class="clear10"></div>
+
+            	<div class="box_title"><?php _e("Portfolio Pictures",'ProjectTheme'); 
+				
+				
+						echo '<link media="screen" rel="stylesheet" href="'.get_bloginfo('template_url').'/css/colorbox.css" />';
+						/*echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>'; */
+						echo '<script src="'.get_bloginfo('template_url').'/js/jquery.colorbox.js"></script>';
+								
+				?>
+				</div>
+                
+                		<div class="my_box3">
+ 
+            	<div class="box_content">	
+
+		<script>
+
+		
+
+		var $ = jQuery;
+
+		
+
+			$(document).ready(function(){
+
+				
+
+				$("a[rel='image_gal1']").colorbox();
+			});
+</script>
+	
+     <?php
+
+		$args = array(
+		'order'          => 'ASC',
+		'orderby'        => 'post_date',
+		'post_type'      => 'attachment',
+		'author'    => $uid,
+		'meta_key' 		=> 'is_portfolio',
+		'meta_value' 	=> '1',
+		'post_mime_type' => 'image',
+		'numberposts'    => -1,
+		); $i = 0;
+		
+		$attachments = get_posts($args);
+
+
+
+	if ($attachments) {
+	    foreach ($attachments as $attachment) {
+		$url = ($attachment->ID);
+		
+			echo '<div class="div_div"  id="image_ss'.$attachment->ID.'"> <a href="'.ProjectTheme_generate_thumb($url, 900,600).'" rel="image_gal1"><img width="70" class="image_class" height="70" src="' .
+			ProjectTheme_generate_thumb($url, 70, 70). '" /></a>
+			 
+			</div>';
+	  
+	}
+	}
+
+
+	?>
+    
+    </div>
+    </div>-->
+ 
+
+<?php endif;
+
+
+	if(ProjectTheme_is_user_provider($uid)):
+	if(ProjectTheme_2_user_types()):
+	
+	
+?>
+
+            
+<div class="box_title"><?php _e("Member Latest Feedback",'ProjectTheme'); ?> 
+               <span class="sml_ltrs"> [<a href="<?php bloginfo('siteurl'); ?>?p_action=user_feedback&post_author=<?php echo $uid; ?>"><?php _e('See All Feedback','ProjectTheme'); ?></a>]</span>
+               </div>
+			   
+<div class="my_box3">
+            <div class="padd10">			   
+			   
+            	<div class="box_content">	
+               <!-- ####### -->
+                
+                
+                <?php
+					
+					global $wpdb;
+					$query = "select * from ".$wpdb->prefix."project_ratings where touser='$uid' AND awarded='1' order by id desc limit 5";
+					$r = $wpdb->get_results($query);
+					
+					if(count($r) > 0)
+					{
+						echo '<table width="100%">';
+							echo '<tr>';
+								echo '<th>&nbsp;</th>';	
+								echo '<th><b>'.__('Request Title','ProjectTheme').'</b></th>';								
+								echo '<th><b>'.__('From Member','ProjectTheme').'</b></th>';	
+								echo '<th><b>'.__('Aquired on','ProjectTheme').'</b></th>';								
+								echo '<th><b>'.__('Price','ProjectTheme').'</b></th>';
+								echo '<th><b>'.__('Rating','ProjectTheme').'</b></th>';
+								
+							
+							echo '</tr>';	
+						
+						
+						foreach($r as $row)
+						{
+							$post = $row->pid;
+							$post = get_post($post);
+							$bid = projectTheme_get_winner_bid($row->pid);
+							$user = get_userdata($row->fromuser);
+							echo '<tr>';
+								
+								echo '<th><img class="img_class" src="'.ProjectTheme_get_first_post_image($row->pid, 42, 42).'" 
+                                alt="'.$post->post_title.'" width="42" /></th>';	
+								echo '<th><a href="'.get_permalink($row->pid).'">'.$post->post_title.'</a></th>';
+								echo '<th><a href="'.ProjectTheme_get_user_profile_link($user->user_login).'">'.$user->user_login.'</a></th>';								
+								echo '<th>'.date('d-M-Y H:i:s',get_post_meta($row->pid,'closed_date',true)).'</th>';								
+								echo '<th>'.projectTheme_get_show_price($bid->bid).'</th>';
+								echo '<th>'.ProjectTheme_get_project_stars(floor($row->grade/2)).' ('.floor($row->grade/2).'/5)</th>';
+								
+							
+							echo '</tr>';
+							echo '<tr>';
+							echo '<th></th>';
+							echo '<th colspan="5"><b>'.__('Comment','ProjectTheme').':</b> '.$row->comment.'</th>'	;						
+							echo '</tr>';
+							
+							echo '<tr><th colspan="6"><hr color="#eee" /></th></tr>';
+							
+						}
+						
+						echo '</table>';
+					}
+					else
+					{
+						_e("There are no reviews.","ProjectTheme");	
+					}
+				?>
+                
+                
+				<!-- ####### -->
+                </div>
+                
+            </div>
+		</div>	
+
+
+<?php endif; 
+
+//BillyB add if statement to not display won projects unless user is the owner of the profile
+
+if($cid == $uid):
+
+?>
+
+<div class="clear10"></div>
+
+
+			
+         
+            
+            	<div class="box_title"><?php _e("Member's Latest Won Requests",'ProjectTheme'); ?></div>
+            	
+
+        
+<?php
+
+	
+	$nrpostsPage = 8;
+	$args = array( 'meta_key' => 'winner', 'meta_value' => $uid ,'posts_per_page' => $nrpostsPage, 'paged' => $paged, 'post_type' => 'project', 'order' => "DESC" , 'orderby'=>"date");
+	$the_query = new WP_Query( $args );
+		
+		// The Loop
+		
+		if($the_query->have_posts()):
+		while ( $the_query->have_posts() ) : $the_query->the_post();
+			
+			projectTheme_get_post();
+	
+			
+		endwhile;
+	
+	if(function_exists('wp_pagenavi'))
+	wp_pagenavi( array( 'query' => $the_query ) );
+	
+          ?>
+          
+          <?php                                
+     	else:
+		echo '<div class="my_box3"><div class="box_content">	';
+		echo __('No Requests posted.','ProjectTheme');
+		echo '</div>
+</div>';
+		endif;
+		// Reset Post Data
+		wp_reset_postdata();
+
+            
+					 
+		?>
+	
+
+	
+
+
+<div class="clear10"></div>
+<?php endif; 
+endif;
+
+if(ProjectTheme_is_user_business($uid)):
+
+?>
+<div class="box_title"><?php _e("Member's Latest Feedback",'ProjectTheme'); ?> 
+               <span class="sml_ltrs"> [<a href="<?php bloginfo('siteurl'); ?>?p_action=user_feedback&post_author=<?php echo $uid; ?>"><?php _e('See All Feedback','ProjectTheme'); ?></a>]</span>
+               </div>
+
+<div class="my_box3">
+            <div class="padd10">
+            
+            	<!-- <div class="box_title"><?php _e("User Latest Feedback",'ProjectTheme'); ?> 
+               <span class="sml_ltrs"> [<a href="<?php bloginfo('siteurl'); ?>?p_action=user_feedback&post_author=<?php echo $uid; ?>"><?php _e('See All Feedback','ProjectTheme'); ?></a>]</span> -->
+               </div>
+            	<div class="box_content">	
+               <!-- ####### -->
+                
+                
+                <?php
+					
+					global $wpdb;
+					$query = "select * from ".$wpdb->prefix."project_ratings where touser='$uid' AND awarded='1' order by id desc limit 5";
+					$r = $wpdb->get_results($query);
+					
+					if(count($r) > 0)
+					{
+						echo '<table width="100%">';
+							echo '<tr>';
+								echo '<th>&nbsp;</th>';	
+								echo '<th><b>'.__('Request Title','ProjectTheme').'</b></th>';								
+								echo '<th><b>'.__('From Member','ProjectTheme').'</b></th>';	
+								echo '<th><b>'.__('Aquired on','ProjectTheme').'</b></th>';								
+								echo '<th><b>'.__('Price','ProjectTheme').'</b></th>';
+								echo '<th><b>'.__('Rating','ProjectTheme').'</b></th>';
+								
+							
+							echo '</tr>';	
+						
+						
+						foreach($r as $row)
+						{
+							$post = $row->pid;
+							$post = get_post($post);
+							$bid = projectTheme_get_winner_bid($row->pid);
+							$user = get_userdata($row->fromuser);
+							echo '<tr>';
+								
+								echo '<th><img class="img_class" src="'.ProjectTheme_get_first_post_image($row->pid, 42, 42).'" 
+                                alt="'.$post->post_title.'" width="42" /></th>';	
+								echo '<th><a href="'.get_permalink($row->pid).'">'.$post->post_title.'</a></th>';
+								echo '<th><a href="'.ProjectTheme_get_user_profile_link($user->user_login).'">'.$user->user_login.'</a></th>';								
+								echo '<th>'.date('d-M-Y H:i:s',get_post_meta($row->pid,'closed_date',true)).'</th>';								
+								echo '<th>'.projectTheme_get_show_price($bid->bid).'</th>';
+								echo '<th>'.ProjectTheme_get_project_stars(floor($row->grade/2)).' ('.floor($row->grade/2).'/5)</th>';
+								
+							
+							echo '</tr>';
+							echo '<tr>';
+							echo '<th></th>';
+							echo '<th colspan="5"><b>'.__('Comment','ProjectTheme').':</b> '.$row->comment.'</th>'	;						
+							echo '</tr>';
+							
+							echo '<tr><th colspan="6"><hr color="#eee" /></th></tr>';
+							
+						}
+						
+						echo '</table>';
+					}
+					else
+					{
+						_e("There are no reviews.","ProjectTheme");	
+					}
+				?>
+                
+                
+				<!-- ####### -->
+                </div>
+                
+            </div>
+            </div>
+
+<?php endif; ?>
+</div>
+
+
+<div id="right-sidebar">
+
+	<?php dynamic_sidebar( 'other-page-area' ); ?>
+
+</div>
+
+
+
+</div></div> 
+
+
+<?php
+
 	get_footer();
+	
 ?>
