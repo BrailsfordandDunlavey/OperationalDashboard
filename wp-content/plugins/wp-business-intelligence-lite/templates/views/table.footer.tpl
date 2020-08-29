@@ -1,1 +1,0 @@
-<th>{TABLE_FOOTER_COLUMN_NAME}</th>

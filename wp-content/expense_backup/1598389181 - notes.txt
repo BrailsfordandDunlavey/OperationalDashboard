@@ -1,2 +1,0 @@
-Project for who is logged in and looked at it, 
-and who logged in and finished.
