@@ -1,0 +1,10 @@
+sc queryex ReportServer
+
+taskkill /f /pid 3208
+
+DISM /Online /Set-Edition:ServerEnterprise/ProductKey:489J6-VHDMP-X63PK-3K798-CPX3Y
+
+
+489J6-VHDMP-X63PK-3K798-CPX3Y
+
+netstat -ano | findstr 4156
