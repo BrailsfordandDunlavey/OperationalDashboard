@@ -10,11 +10,8 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /wp-opdash/index.php [L]
 </IfModule>
+# END WordPress
 
 <Directory /path/to/wordpress>
   AllowOverride All
 </Directory>
-
-# END WordPress
-
-
