@@ -228,7 +228,7 @@
 			
 			do_action("ProjectTheme_content_before_main_menu");
 			
-			if(projecttheme_is_home()): if(is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."index.php/dashboard"); exit; }
+			if(projecttheme_is_home()): if(is_user_logged_in()) { wp_redirect(get_bloginfo('siteurl')."/index.php/dashboard"); exit; }
 		?>
         <div class="home_blur">
         <div class="main_area_homepg">
