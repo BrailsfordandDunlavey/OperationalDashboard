@@ -108,7 +108,9 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     $_SESSION['pm_arr_two'] = $pm_arr_two;
     $_SESSION['vp_arr_two'] = $vp_arr_two;
     $_SESSION['evp_arr_two'] = $evp_arr_two;
-    
-    header("Location: http://localhost/wpopdash/scopes-information/");
+
+    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    echo $actual_link;
+   // header("Location: /scopes-information/");
     
 ?>
