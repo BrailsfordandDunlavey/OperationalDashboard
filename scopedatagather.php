@@ -1,4 +1,7 @@
  <?php
+ echo "Hello World";
+
+ exit;
     session_start();
     
 //include( 'PLUGIN_ROOT_DIR' . 'formidable/classes/models/FrmEntry.php');
