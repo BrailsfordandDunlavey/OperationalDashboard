@@ -1,4 +1,5 @@
  <?php 
+ /*
 $dir = sys_get_temp_dir();
 session_save_path($dir);
  //echo "Hello World";
@@ -39,7 +40,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     $entries = FrmProEntriesController::get_field_value_shortcode(array('field_id' => 6, 'user_id' => 'current'));
     //print_r($entries);
     $entries = FrmProEntriesController::get_field_value_shortcode(array('field_id' => 9, 'user_id' => 'current'));
-*/
+
     global $wpdb;
     $table = 'frm_item_metas';	
 	$table_name = $wpdb->prefix . $table;	
@@ -93,7 +94,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
                 case 24:
                     $evp_arr[] = $eval->meta_value * 455;
                     $evp_arr_two[] = $eval->meta_value;
-                    break;*/
+                    break;
                 
         }
     }
@@ -119,6 +120,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     //$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
    // echo $actual_link;
   //echo "Hello World";
+  */
  echo "<script type='text/javascript'>
 window.location.href = 'http://www.google.com.au/';
 </script>";
