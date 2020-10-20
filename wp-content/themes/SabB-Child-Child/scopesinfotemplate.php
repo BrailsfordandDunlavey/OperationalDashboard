@@ -61,7 +61,15 @@ get_header();
     background-color: #cccccc;
   }
   
+  table {
+    width: 100%;
+  }
+
+  tr:hover {background-color: #f5f5f5;}
   
+  th, td {
+    border-bottom: 1px solid #ddd;
+  }
   
   </style>';
 
