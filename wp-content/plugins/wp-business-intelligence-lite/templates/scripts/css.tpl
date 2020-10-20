@@ -1,1 +1,0 @@
-<link rel="stylesheet" href="{TPL_CSS}" type="text/css" >
