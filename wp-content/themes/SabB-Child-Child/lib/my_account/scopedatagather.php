@@ -48,7 +48,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
 		"SELECT * FROM $table_name");
             
     //echo "<pre>";
-    //print_r($result);
+    print_r($result);
     foreach($result as $ekey => $eval){
        // echo "<br />";
          print_r($eval->meta_value);
