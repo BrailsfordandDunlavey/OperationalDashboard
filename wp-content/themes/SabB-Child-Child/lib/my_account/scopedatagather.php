@@ -40,7 +40,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     $entries = FrmProEntriesController::get_field_value_shortcode(array('field_id' => 6, 'user_id' => 'current'));
     //print_r($entries);
     $entries = FrmProEntriesController::get_field_value_shortcode(array('field_id' => 9, 'user_id' => 'current'));
-
+*/
     global $wpdb;
     $table = 'frm_item_metas';	
 	$table_name = $wpdb->prefix . $table;	
@@ -51,9 +51,9 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     //print_r($result);
     foreach($result as $ekey => $eval){
        // echo "<br />";
-         //print_r($eval->meta_value);
+         print_r($eval->meta_value);
          switch ($eval->field_id) {
-          case 28:
+           /* case 28:
                 $pa_arr[] = $eval->meta_value * 200;
                 $pa_arr_two[] = $eval->meta_value;
                 break;
@@ -72,9 +72,9 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
             case 36:
                 $evp_arr[] = $eval->meta_value * 455;
                 $evp_arr_two[] = $eval->meta_value;
-                break;            
+                break;        
 
-             /* 
+              
                 case 14:
                     $pa_arr[] = $eval->meta_value * 200;
                     $pa_arr_two[] = $eval->meta_value;
@@ -94,7 +94,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
                 case 24:
                     $evp_arr[] = $eval->meta_value * 455;
                     $evp_arr_two[] = $eval->meta_value;
-                    break;
+                    break;*/
                 
         }
     }
@@ -102,7 +102,7 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
 
     //print_r($pa_arr_two);
    // 
-    
+    /*
     for($i = 0; $i < sizeof($pa_arr); $i++){
         $summed_entries[] = $pa_arr[$i] + $apm_arr[$i] + $vp_arr[$i] + $evp_arr[$i] + $epa_arr[$i] + $pm_arr[$i];       
     }
@@ -120,10 +120,10 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     //$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
    // echo $actual_link;
   //echo "Hello World";
-  */
+  
  echo "<script type='text/javascript'>
 window.location.href = 'http://www.google.com.au/';
-</script>";
+</script>";*/
  // header("Location: scopes-information/");
   // header("Location: http://localhost/wpopdash/scopes-information/");
     
