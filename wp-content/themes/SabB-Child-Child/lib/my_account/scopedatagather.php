@@ -41,12 +41,13 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     //print_r($entries);
     $entries = FrmProEntriesController::get_field_value_shortcode(array('field_id' => 9, 'user_id' => 'current'));
 */
+    echo "Testing the site";
     global $wpdb;
     $table = 'frm_item_metas';	
 	$table_name = $wpdb->prefix . $table;	
 	$result = $wpdb->get_results(
 		"SELECT * FROM $table_name");
-            
+    echo $table_name;
     //echo "<pre>";
     print_r($result);
     foreach($result as $ekey => $eval){
