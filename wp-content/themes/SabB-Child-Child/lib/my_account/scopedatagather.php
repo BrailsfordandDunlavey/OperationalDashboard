@@ -1,5 +1,6 @@
  <?php 
-
+$dir = sys_get_temp_dir();
+session_save_path($dir);
  //echo "Hello World";
 session_start();
 
