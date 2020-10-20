@@ -2,8 +2,8 @@
 
  echo 
  "Hello World";
- exit;
-    session_start();
+ //exit;
+  //  session_start();
     
 //include( 'PLUGIN_ROOT_DIR' . 'formidable/classes/models/FrmEntry.php');
 //include('../../plugins/formidable/classes/models/FrmEntry.php');
