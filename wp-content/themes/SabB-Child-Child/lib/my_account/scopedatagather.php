@@ -119,7 +119,10 @@ include( $plugin_dir_path . 'plugins/formidable/classes/models/FrmEntry.php');
     //$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
    // echo $actual_link;
   //echo "Hello World";
-  header("Location: scopes-information/");
+ echo "<script type='text/javascript'>
+window.location.href = 'http://www.google.com.au/';
+</script>";
+ // header("Location: scopes-information/");
   // header("Location: http://localhost/wpopdash/scopes-information/");
     
 ?>
